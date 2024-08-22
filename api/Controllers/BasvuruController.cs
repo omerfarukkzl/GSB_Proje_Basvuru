@@ -21,15 +21,15 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetBasvuru()
         {
-            var basvurus = _context.Basvurus.ToList().Select(b => b.toBasvuruDto());
-            return Ok(basvurus);
+            var Basvuru = _context.Basvuru.ToList().Select(b => b.toBasvuruDto());
+            return Ok(Basvuru);
         }
 
         [HttpGet("{BasvuruId}")]
         public async Task<ActionResult<Kullanici>> GetBasvuruId(int BasvuruId)
         {
-            var Basvurus = await _context.Basvurus.FindAsync(BasvuruId);
-            return Ok(Basvurus.toBasvuruDto());
+            var Basvuru = await _context.Basvuru.FindAsync(BasvuruId);
+            return Ok(Basvuru.toBasvuruDto());
         }
 
 
@@ -38,7 +38,7 @@ namespace api.Controllers
         public IActionResult PostBasvuru([FromBody] BasvuruDto basvuruDto)
         {
             var basvuruModel = basvuruDto.toBasvuruModel();
-            _context.Basvurus.Add(basvuruModel);
+            _context.Basvuru.Add(basvuruModel);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetBasvuru), new { id = basvuruModel.BasvuruId }, basvuruModel);
         }
@@ -81,13 +81,13 @@ namespace api.Controllers
         [HttpDelete("{BasvuruId}")]
         public async Task<IActionResult> DeleteBasvuru(int BasvuruId)
         {
-            var basvuruItem = await _context.Basvurus.FindAsync(BasvuruId);
+            var basvuruItem = await _context.Basvuru.FindAsync(BasvuruId);
             if (basvuruItem == null)
             {
                 return NotFound();
             }
 
-            _context.Basvurus.Remove(basvuruItem);
+            _context.Basvuru.Remove(basvuruItem);
             await _context.SaveChangesAsync();
 
             return NoContent();

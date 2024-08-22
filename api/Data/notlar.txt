@@ -1,0 +1,11 @@
+
+//  Migration'a göre Db Update eder ve oluşturur.
+
+dotnet ef database update --context ApplicationDbContext  
+
+// Migration oluşturur
+
+otnet ef migrations add InitialCreate --context ApplicationDbContext
+
+
+

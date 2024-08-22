@@ -11,17 +11,17 @@ namespace api.Dtos.Kullanici
     public int BasvuruId { get; set; }
     public string ProjeAdi { get; set; }
 
-    public TblRef BasvuranBirim { get; set; }
+    public Tipler BasvuranBirim { get; set; }
 
-    public TblRef BasvuruYapilanProje { get; set; }
+    public Tipler BasvuruYapilanProje { get; set; }
 
-    public TblRef BasvuruYapilanTur { get; set; }
+    public Tipler BasvuruYapilanTur { get; set; }
 
-    public TblRef KatilimciTuru { get; set; }
+    public Tipler KatilimciTuru { get; set; }
 
-    public TblRef BasvuruDonemi { get; set; }
+    public Tipler BasvuruDonemi { get; set; }
 
-    public TblRef BasvuruDurumu { get; set; }
+    public Tipler BasvuruDurumu { get; set; }
 
     public DateTime BasvuruTarihi { get; set; }
     public DateTime AciklamaTarihi { get; set; }

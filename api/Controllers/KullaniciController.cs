@@ -20,22 +20,22 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetKullanici()
         {
-            var kullanicis = _context.Kullanicis.ToList().Select(s => s.toKullaniciDto());
-            return Ok(kullanicis);
+            var Kullanici = _context.Kullanici.ToList().Select(s => s.toKullaniciDto());
+            return Ok(Kullanici);
         }
 
         [HttpGet("{KullaniciId}")]
         public async Task<ActionResult<Kullanici>> GetKullaniciId(int KullaniciId)
         {
-            var Kullanicis = await _context.Kullanicis.FindAsync(KullaniciId);
-            return Ok(Kullanicis.toKullaniciDto());
+            var Kullanici = await _context.Kullanici.FindAsync(KullaniciId);
+            return Ok(Kullanici.toKullaniciDto());
         }
 
 
         [HttpPost]
         public async Task<ActionResult<Kullanici>> PostKullanici(Kullanici kullaniciItem)
         {
-            _context.Kullanicis.Add(kullaniciItem);
+            _context.Kullanici.Add(kullaniciItem);
             await _context.SaveChangesAsync();
 
             //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
@@ -75,13 +75,13 @@ namespace api.Controllers
         [HttpDelete("{KullaniciId}")]
         public async Task<IActionResult> DeleteKullanici(int KullaniciId)
         {
-            var kullaniciItem = await _context.Kullanicis.FindAsync(KullaniciId);
+            var kullaniciItem = await _context.Kullanici.FindAsync(KullaniciId);
             if (kullaniciItem == null)
             {
                 return NotFound();
             }
 
-            _context.Kullanicis.Remove(kullaniciItem);
+            _context.Kullanici.Remove(kullaniciItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -90,7 +90,7 @@ namespace api.Controllers
 
         private bool KullaniciExists(int KullaniciId)
         {
-            return _context.Kullanicis.Any(e => e.KullaniciId == KullaniciId);
+            return _context.Kullanici.Any(e => e.KullaniciId == KullaniciId);
         }
 
 

@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240822090816_InitialCreate")]
+    [Migration("20240822132844_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,39 +36,33 @@ namespace api.Migrations
                     b.Property<DateTime>("AciklamaTarihi")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("BasvuranBirimId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("BasvuranBirimId")
+                        .HasColumnType("INT");
 
-                    b.Property<string>("BasvuruDonemiId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("BasvuruDonemiId")
+                        .HasColumnType("INT");
 
-                    b.Property<string>("BasvuruDurumuId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("BasvuruDurumuId")
+                        .HasColumnType("INT");
 
                     b.Property<DateTime>("BasvuruTarihi")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("BasvuruYapilanProjeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("BasvuruYapilanProjeId")
+                        .HasColumnType("INT");
 
-                    b.Property<string>("BasvuruYapilanTurId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("BasvuruYapilanTurId")
+                        .HasColumnType("INT");
 
                     b.Property<decimal>("HibeTutari")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("KatilimciTuruId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("KatilimciTuruId")
+                        .HasColumnType("INT");
 
                     b.Property<string>("ProjeAdi")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("BasvuruId");
 
@@ -84,30 +78,7 @@ namespace api.Migrations
 
                     b.HasIndex("KatilimciTuruId");
 
-                    b.ToTable("Basvurus");
-                });
-
-            modelBuilder.Entity("api.Models.BasvuruKullanici", b =>
-                {
-                    b.Property<int>("BasvuruKullaniciId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BasvuruKullaniciId"));
-
-                    b.Property<int>("BasvuruId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("KullaniciId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("BasvuruKullaniciId");
-
-                    b.HasIndex("BasvuruId");
-
-                    b.HasIndex("KullaniciId");
-
-                    b.ToTable("BasvuruKullanicis");
+                    b.ToTable("Basvuru");
                 });
 
             modelBuilder.Entity("api.Models.Kullanici", b =>
@@ -120,79 +91,79 @@ namespace api.Migrations
 
                     b.Property<string>("KullaniciAdi")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Rol")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Sifre")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("SilinmeDurumu")
                         .HasColumnType("boolean");
 
                     b.HasKey("KullaniciId");
 
-                    b.ToTable("Kullanicis");
+                    b.ToTable("Kullanici");
                 });
 
-            modelBuilder.Entity("api.Models.TblRef", b =>
+            modelBuilder.Entity("api.Models.Tipler", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("INT");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AltTip")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("VARCHAR(50)");
 
-                    b.Property<bool>("Silinme_Durumu")
+                    b.Property<bool?>("SilinmeDurumu")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Tip")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("VARCHAR(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TblRefs");
+                    b.ToTable("Tipler");
                 });
 
             modelBuilder.Entity("api.Models.Basvuru", b =>
                 {
-                    b.HasOne("api.Models.TblRef", "BasvuranBirim")
+                    b.HasOne("api.Models.Tipler", "BasvuranBirim")
                         .WithMany()
                         .HasForeignKey("BasvuranBirimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Models.TblRef", "BasvuruDonemi")
+                    b.HasOne("api.Models.Tipler", "BasvuruDonemi")
                         .WithMany()
                         .HasForeignKey("BasvuruDonemiId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Models.TblRef", "BasvuruDurumu")
+                    b.HasOne("api.Models.Tipler", "BasvuruDurumu")
                         .WithMany()
                         .HasForeignKey("BasvuruDurumuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Models.TblRef", "BasvuruYapilanProje")
+                    b.HasOne("api.Models.Tipler", "BasvuruYapilanProje")
                         .WithMany()
                         .HasForeignKey("BasvuruYapilanProjeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Models.TblRef", "BasvuruYapilanTur")
+                    b.HasOne("api.Models.Tipler", "BasvuruYapilanTur")
                         .WithMany()
                         .HasForeignKey("BasvuruYapilanTurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Models.TblRef", "KatilimciTuru")
+                    b.HasOne("api.Models.Tipler", "KatilimciTuru")
                         .WithMany()
                         .HasForeignKey("KatilimciTuruId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -209,25 +180,6 @@ namespace api.Migrations
                     b.Navigation("BasvuruYapilanTur");
 
                     b.Navigation("KatilimciTuru");
-                });
-
-            modelBuilder.Entity("api.Models.BasvuruKullanici", b =>
-                {
-                    b.HasOne("api.Models.Basvuru", "Basvuru")
-                        .WithMany()
-                        .HasForeignKey("BasvuruId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Models.Kullanici", "Kullanici")
-                        .WithMany()
-                        .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Basvuru");
-
-                    b.Navigation("Kullanici");
                 });
 #pragma warning restore 612, 618
         }

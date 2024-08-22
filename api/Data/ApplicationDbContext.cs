@@ -11,19 +11,32 @@ namespace api.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         
-        public DbSet<TblRef> TblRefs { get; set; }
-        public DbSet<Basvuru> Basvurus { get; set; }
-        public DbSet<Kullanici> Kullanicis { get; set; }
-        public DbSet<BasvuruKullanici> BasvuruKullanicis { get; set; }
+        public DbSet<Tipler> Tipler { get; set; }
+        public DbSet<Basvuru> Basvuru { get; set; }
+        public DbSet<Kullanici> Kullanici { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Tbl_Ref tablosu için yapılandırmalar
-            modelBuilder.Entity<TblRef>()
+            modelBuilder.Entity<Tipler>()
                 .Property(t => t.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT");
 
-            // Basvuru tablosu için yapılandırmalar
+            modelBuilder.Entity<Tipler>()
+                .Property(t => t.Tip)
+                .HasColumnType("VARCHAR(50)");
+
+            modelBuilder.Entity<Tipler>()
+                .Property(t => t.AltTip)
+                .HasColumnType("VARCHAR(50)");
+
+            modelBuilder.Entity<Tipler>()
+                .Property(t => t.SilinmeDurumu);
+
+            
+
+      /*      // Basvuru tablosu için yapılandırmalar
             modelBuilder.Entity<Basvuru>()
                 .HasKey(b => b.BasvuruId);
 
@@ -76,7 +89,7 @@ namespace api.Data
                 .HasForeignKey(bk => bk.KullaniciId);
 
             // Tüm string property'ler için global bir mapping
-       /*     foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 foreach (var property in entityType.GetProperties())
                 {

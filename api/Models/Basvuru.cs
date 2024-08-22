@@ -12,22 +12,22 @@ namespace api.Models
     public string ProjeAdi { get; set; }
 
     public int BasvuranBirimId { get; set; }
-    public TblRef BasvuranBirim { get; set; }
+    public Tipler BasvuranBirim { get; set; }
 
     public int BasvuruYapilanProjeId { get; set; }
-    public TblRef BasvuruYapilanProje { get; set; }
+    public Tipler BasvuruYapilanProje { get; set; }
 
     public int BasvuruYapilanTurId { get; set; }
-    public TblRef BasvuruYapilanTur { get; set; }
+    public Tipler BasvuruYapilanTur { get; set; }
 
     public int KatilimciTuruId { get; set; }
-    public TblRef KatilimciTuru { get; set; }
+    public Tipler KatilimciTuru { get; set; }
 
     public int BasvuruDonemiId { get; set; }
-    public TblRef BasvuruDonemi { get; set; }
+    public Tipler BasvuruDonemi { get; set; }
 
     public int BasvuruDurumuId { get; set; }
-    public TblRef BasvuruDurumu { get; set; }
+    public Tipler BasvuruDurumu { get; set; }
 
     public DateTime BasvuruTarihi { get; set; }
     public DateTime AciklamaTarihi { get; set; }
