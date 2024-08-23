@@ -36,6 +36,7 @@ namespace api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Tip = table.Column<string>(type: "VARCHAR(50)", nullable: true),
                     AltTip = table.Column<string>(type: "VARCHAR(50)", nullable: true),
+                    TipKod = table.Column<int>(type: "INT", nullable: true),
                     SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
@@ -101,6 +102,32 @@ namespace api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BasvuruKullanici",
+                columns: table => new
+                {
+                    BasvuruKullaniciId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BasvuruId = table.Column<int>(type: "integer", nullable: false),
+                    KullaniciId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BasvuruKullanici", x => x.BasvuruKullaniciId);
+                    table.ForeignKey(
+                        name: "FK_BasvuruKullanici_Basvuru_BasvuruId",
+                        column: x => x.BasvuruId,
+                        principalTable: "Basvuru",
+                        principalColumn: "BasvuruId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasvuruKullanici_Kullanici_KullaniciId",
+                        column: x => x.KullaniciId,
+                        principalTable: "Kullanici",
+                        principalColumn: "KullaniciId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Basvuru_BasvuranBirimId",
                 table: "Basvuru",
@@ -130,11 +157,24 @@ namespace api.Migrations
                 name: "IX_Basvuru_KatilimciTuruId",
                 table: "Basvuru",
                 column: "KatilimciTuruId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasvuruKullanici_BasvuruId",
+                table: "BasvuruKullanici",
+                column: "BasvuruId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasvuruKullanici_KullaniciId",
+                table: "BasvuruKullanici",
+                column: "KullaniciId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BasvuruKullanici");
+
             migrationBuilder.DropTable(
                 name: "Basvuru");
 

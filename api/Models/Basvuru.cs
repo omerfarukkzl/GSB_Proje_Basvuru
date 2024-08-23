@@ -22,7 +22,6 @@ namespace api.Models
 
     public int KatilimciTuruId { get; set; }
     public Tipler KatilimciTuru { get; set; }
-
     public int BasvuruDonemiId { get; set; }
     public Tipler BasvuruDonemi { get; set; }
 
@@ -32,6 +31,7 @@ namespace api.Models
     public DateTime BasvuruTarihi { get; set; }
     public DateTime AciklamaTarihi { get; set; }
     public decimal HibeTutari { get; set; }
+
 }
 
 

@@ -10,14 +10,14 @@ namespace api.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        
+
         public DbSet<Tipler> Tipler { get; set; }
         public DbSet<Basvuru> Basvuru { get; set; }
         public DbSet<Kullanici> Kullanici { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Tbl_Ref tablosu için yapılandırmalar
+            // Tipler tablosu için yapılandırmalar (BAŞLANGIÇ)
             modelBuilder.Entity<Tipler>()
                 .Property(t => t.Id)
                 .ValueGeneratedOnAdd()
@@ -32,18 +32,25 @@ namespace api.Data
                 .HasColumnType("VARCHAR(50)");
 
             modelBuilder.Entity<Tipler>()
+                .Property(t => t.TipKod)
+                .HasColumnType("INT");
+
+            modelBuilder.Entity<Tipler>()
                 .Property(t => t.SilinmeDurumu);
 
-            
+            // Tipler tablosu için yapılandırmalar (BİTİŞ)
 
-      /*      // Basvuru tablosu için yapılandırmalar
+            // Basvuru tablosu için yapılandırmalar (BAŞLANGIÇ)
+
             modelBuilder.Entity<Basvuru>()
-                .HasKey(b => b.BasvuruId);
+            .Property(b => b.BasvuruId)
+            .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Basvuru>()
                 .HasOne(b => b.BasvuranBirim)
                 .WithMany()
                 .HasForeignKey(b => b.BasvuranBirimId);
+
 
             modelBuilder.Entity<Basvuru>()
                 .HasOne(b => b.BasvuruYapilanProje)
@@ -88,17 +95,6 @@ namespace api.Data
                 .WithMany()
                 .HasForeignKey(bk => bk.KullaniciId);
 
-            // Tüm string property'ler için global bir mapping
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var property in entityType.GetProperties())
-                {
-                    if (property.ClrType == typeof(string))
-                    {
-                        property.SetColumnType("varchar(255)"); // ya da "text"
-                    }
-                }
-            }*/
         }
     }
 }

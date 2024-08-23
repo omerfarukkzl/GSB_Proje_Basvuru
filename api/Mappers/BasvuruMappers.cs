@@ -11,7 +11,8 @@ namespace api.Mappers
             {
                 BasvuruId = basvuruModel.BasvuruId,
                 ProjeAdi = basvuruModel.ProjeAdi,
-                BasvuranBirim = basvuruModel.BasvuranBirim,
+                BasvuranBirim = basvuruModel.BasvuranBirim, 
+                /*
                 BasvuruYapilanProje = basvuruModel.BasvuruYapilanProje,
                 BasvuruYapilanTur = basvuruModel.BasvuruYapilanTur,
                 KatilimciTuru = basvuruModel.KatilimciTuru,
@@ -20,6 +21,7 @@ namespace api.Mappers
                 BasvuruTarihi = basvuruModel.BasvuruTarihi,
                 AciklamaTarihi = basvuruModel.AciklamaTarihi,
                 HibeTutari = basvuruModel.HibeTutari
+                */
             };
         }
 
@@ -30,6 +32,7 @@ namespace api.Mappers
             {
                 ProjeAdi = basvuruDto.ProjeAdi,
                 BasvuranBirim = basvuruDto.BasvuranBirim,
+                /*
                 BasvuruYapilanProje = basvuruDto.BasvuruYapilanProje,
                 BasvuruYapilanTur = basvuruDto.BasvuruYapilanTur,
                 KatilimciTuru = basvuruDto.KatilimciTuru,
@@ -38,6 +41,7 @@ namespace api.Mappers
                 BasvuruTarihi = basvuruDto.BasvuruTarihi,
                 AciklamaTarihi = basvuruDto.AciklamaTarihi,
                 HibeTutari = basvuruDto.HibeTutari
+                */
             };
         }
     }

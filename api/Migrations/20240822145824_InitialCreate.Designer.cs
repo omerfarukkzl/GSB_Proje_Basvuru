@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240822132844_InitialCreate")]
+    [Migration("20240822145824_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -81,6 +81,29 @@ namespace api.Migrations
                     b.ToTable("Basvuru");
                 });
 
+            modelBuilder.Entity("api.Models.BasvuruKullanici", b =>
+                {
+                    b.Property<int>("BasvuruKullaniciId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BasvuruKullaniciId"));
+
+                    b.Property<int>("BasvuruId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("KullaniciId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BasvuruKullaniciId");
+
+                    b.HasIndex("BasvuruId");
+
+                    b.HasIndex("KullaniciId");
+
+                    b.ToTable("BasvuruKullanici");
+                });
+
             modelBuilder.Entity("api.Models.Kullanici", b =>
                 {
                     b.Property<int>("KullaniciId")
@@ -125,6 +148,9 @@ namespace api.Migrations
 
                     b.Property<string>("Tip")
                         .HasColumnType("VARCHAR(50)");
+
+                    b.Property<int?>("TipKod")
+                        .HasColumnType("INT");
 
                     b.HasKey("Id");
 
@@ -180,6 +206,25 @@ namespace api.Migrations
                     b.Navigation("BasvuruYapilanTur");
 
                     b.Navigation("KatilimciTuru");
+                });
+
+            modelBuilder.Entity("api.Models.BasvuruKullanici", b =>
+                {
+                    b.HasOne("api.Models.Basvuru", "Basvuru")
+                        .WithMany()
+                        .HasForeignKey("BasvuruId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.Kullanici", "Kullanici")
+                        .WithMany()
+                        .HasForeignKey("KullaniciId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basvuru");
+
+                    b.Navigation("Kullanici");
                 });
 #pragma warning restore 612, 618
         }
