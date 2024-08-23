@@ -15,6 +15,8 @@ namespace api.Mappings
 
             builder.Property(a => a.KullaniciId).HasColumnType("int");
             builder.Property(a => a.BasvuruId).HasColumnType("int");
+            builder.Property(a => a.SilinmeDurumu);
+
 
             builder.HasOne(a => a.Kullanici).WithMany(k => k.KullaniciBasvurulari).HasForeignKey(a => a.KullaniciId);
             builder.HasOne(a => a.Basvuru).WithMany(b => b.KullaniciBasvurular).HasForeignKey(a => a.BasvuruId);

@@ -1,4 +1,6 @@
-public class Basvuru
+using api.Entities;
+
+public class Basvuru : BaseClass
 {
     public int Id { get; set; }
     public string? ProjeAdi { get; set; }

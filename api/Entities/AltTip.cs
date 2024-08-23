@@ -1,4 +1,6 @@
-public class AltTip
+using api.Entities;
+
+public class AltTip : BaseClass
 {
     public int Id { get; set; }
     public int? TipId { get; set; }

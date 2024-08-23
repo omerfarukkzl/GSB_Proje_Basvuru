@@ -1,4 +1,6 @@
-public class Kullanici
+using api.Entities;
+
+public class Kullanici : BaseClass
 {
     public int Id { get; set; }
     public string KullaniciAdi { get; set; }

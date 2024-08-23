@@ -16,6 +16,8 @@ namespace api.Mappings
 
             builder.Property(a => a.KullaniciAdi).HasColumnType("varchar(50)");
             builder.Property(a => a.Sifre).HasColumnType("varchar(50)");
+            builder.Property(a => a.SilinmeDurumu);
+
 
 
 

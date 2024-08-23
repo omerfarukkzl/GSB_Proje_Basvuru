@@ -25,6 +25,8 @@ namespace api.Mappings
             builder.Property(a => a.BasvuruTarihi).HasColumnType("timestamp");
             builder.Property(a => a.AciklanmaTarihi).HasColumnType("timestamp");
             builder.Property(a => a.HibeTutari).HasColumnType("decimal");
+            builder.Property(a => a.SilinmeDurumu);
+
 
             //builder.HasOne(a => a.BasvuruDurumu).WithMany(t => t.ListBasvurularDurum).HasForeignKey(a => a.BasvuruDurumId);
             //builder.HasOne(a => a.BasvuruYapilanProje).WithMany(t => t.ListBasvurularProje).HasForeignKey(a => a.BasvuruYapilanProjeId);

@@ -15,14 +15,18 @@ namespace api.Mappings
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id).ValueGeneratedOnAdd();
 
+            
+
             builder.Property(a => a.Ad).HasColumnType("varchar(50)");
             builder.Property(a => a.TipId).HasColumnType("int");
+            builder.Property(a => a.SilinmeDurumu);
             //builder.HasOne(a => a.Tip).WithMany(t => t.ListAltTipler).HasForeignKey(a => a.TipId);
 
             builder.HasOne<Tip>(a => a.Tip).WithMany(a => a.ListAltTipler).HasForeignKey(a => a.TipId).HasConstraintName("FK_AltTip_TipId");
 
 
             builder.ToTable(nameof(AltTip));
+            
         }
     }
 }

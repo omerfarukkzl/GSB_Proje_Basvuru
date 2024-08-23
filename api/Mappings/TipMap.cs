@@ -15,6 +15,8 @@ namespace api.Mappings
             builder.Property(a => a.Id).ValueGeneratedOnAdd();
 
             builder.Property(a => a.Ad).HasColumnType("varchar(50)");
+            builder.Property(a => a.SilinmeDurumu);
+
 
             builder.ToTable(nameof(Tip));
 

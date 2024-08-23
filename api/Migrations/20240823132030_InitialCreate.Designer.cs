@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240823130418_InitialCreate")]
+    [Migration("20240823132030_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,6 +34,9 @@ namespace api.Migrations
 
                     b.Property<string>("Ad")
                         .HasColumnType("varchar(50)");
+
+                    b.Property<bool?>("SilinmeDurumu")
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("TipId")
                         .HasColumnType("int");
@@ -86,6 +89,9 @@ namespace api.Migrations
                     b.Property<string>("ProjeAdi")
                         .HasColumnType("varchar(50)");
 
+                    b.Property<bool?>("SilinmeDurumu")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AltTipId");
@@ -121,6 +127,9 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<bool?>("SilinmeDurumu")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("Kullanici", (string)null);
@@ -133,6 +142,9 @@ namespace api.Migrations
 
                     b.Property<int>("BasvuruId")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("SilinmeDurumu")
+                        .HasColumnType("boolean");
 
                     b.HasKey("KullaniciId", "BasvuruId");
 
@@ -151,6 +163,9 @@ namespace api.Migrations
 
                     b.Property<string>("Ad")
                         .HasColumnType("varchar(50)");
+
+                    b.Property<bool?>("SilinmeDurumu")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

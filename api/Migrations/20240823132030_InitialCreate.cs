@@ -21,7 +21,8 @@ namespace api.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     KullaniciAdi = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Sifre = table.Column<string>(type: "varchar(50)", nullable: false)
+                    Sifre = table.Column<string>(type: "varchar(50)", nullable: false),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,7 +35,8 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Ad = table.Column<string>(type: "varchar(50)", nullable: true)
+                    Ad = table.Column<string>(type: "varchar(50)", nullable: true),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,7 +50,8 @@ namespace api.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TipId = table.Column<int>(type: "int", nullable: true),
-                    Ad = table.Column<string>(type: "varchar(50)", nullable: true)
+                    Ad = table.Column<string>(type: "varchar(50)", nullable: true),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,7 +79,8 @@ namespace api.Migrations
                     BasvuruTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
                     AciklanmaTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
                     HibeTutari = table.Column<decimal>(type: "decimal", nullable: true),
-                    AltTipId = table.Column<int>(type: "integer", nullable: true)
+                    AltTipId = table.Column<int>(type: "integer", nullable: true),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -123,7 +127,8 @@ namespace api.Migrations
                 columns: table => new
                 {
                     KullaniciId = table.Column<int>(type: "int", nullable: false),
-                    BasvuruId = table.Column<int>(type: "int", nullable: false)
+                    BasvuruId = table.Column<int>(type: "int", nullable: false),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,15 +149,15 @@ namespace api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tip",
-                columns: new[] { "Id", "Ad" },
+                columns: new[] { "Id", "Ad", "SilinmeDurumu" },
                 values: new object[,]
                 {
-                    { 1, "Başvuran Birim" },
-                    { 2, "Basvuru Yapılan Proje" },
-                    { 3, "Başvuru Yapılan Tür" },
-                    { 4, "Katılımcı Türü" },
-                    { 5, "Başvuru Dönemi" },
-                    { 6, "Başvuru Durumu" }
+                    { 1, "Başvuran Birim", null },
+                    { 2, "Basvuru Yapılan Proje", null },
+                    { 3, "Başvuru Yapılan Tür", null },
+                    { 4, "Katılımcı Türü", null },
+                    { 5, "Başvuru Dönemi", null },
+                    { 6, "Başvuru Durumu", null }
                 });
 
             migrationBuilder.CreateIndex(
