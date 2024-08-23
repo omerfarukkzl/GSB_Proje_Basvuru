@@ -7,6 +7,7 @@ class BasvuruService {
 
   BasvuruService(this.baseUrl);
 
+  // Bu metodun tanımlı olduğundan emin olun
   Future<void> submitBasvuru(Basvuru basvuru) async {
     final url = Uri.parse('$baseUrl/api/basvuru');
 

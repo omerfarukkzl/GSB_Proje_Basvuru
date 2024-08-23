@@ -4,15 +4,13 @@ import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_State.dart';
 import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_service.dart';
 
 class BasvuruBloc extends Bloc<BasvuruEvent, BasvuruState> {
-  final BasvuruService basvuruService;
-
-  BasvuruBloc(this.basvuruService) : super(BasvuruInitial()) {
+  BasvuruBloc() : super(BasvuruInitial()) {
     on<LoadComboBoxData>(_onLoadComboBoxData);
     on<SubmitBasvuru>(_onSubmitBasvuru);
   }
 
   void _onLoadComboBoxData(LoadComboBoxData event, Emitter<BasvuruState> emit) {
-    // Verileri yüklemek için işlemler (simüle edilmiş)
+    // Simulate fetching data from database
     emit(ComboBoxDataLoaded(
       basvuruProjeList: ["Proje1", "Proje2"],
       basvuruTurList: ["Tur1", "Tur2"],
@@ -22,11 +20,9 @@ class BasvuruBloc extends Bloc<BasvuruEvent, BasvuruState> {
     ));
   }
 
-  void _onSubmitBasvuru(SubmitBasvuru event, Emitter<BasvuruState> emit) async {
-    emit(BasvuruLoading());
-
+  void _onSubmitBasvuru(SubmitBasvuru event, Emitter<BasvuruState> emit) {
     try {
-      await basvuruService.submitBasvuru(event.basvuru);
+      // Simulate submission process
       emit(BasvuruSuccess());
     } catch (error) {
       emit(BasvuruFailure());

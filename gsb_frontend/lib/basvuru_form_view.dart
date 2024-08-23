@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_Bloc.dart';
 import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_Event.dart';
 import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_State.dart';
-import 'package:gsb_frontend/Bloc/BasvuruBloc/basvuru_service.dart';
 import 'package:gsb_frontend/Models/basvuru_model.dart';
 
 class BasvuruForm extends StatelessWidget {
@@ -19,42 +18,12 @@ class BasvuruForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          BasvuruBloc(BasvuruService('http://localhost:5232/api/Kullanici')),
+      create: (_) => BasvuruBloc()..add(LoadComboBoxData()),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Başvuru İşlemleri'),
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Gençlik ve Spor Bakanlığı'),
-              ),
-              ListTile(
-                leading: Icon(Icons.assignment),
-                title: Text('Başvuru İşlemleri'),
-                onTap: () {
-                  // Bu sayfa zaten açık olduğundan, menüyü kapatabilirsiniz.
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.list),
-                title: Text('Başvuru Listele'),
-                onTap: () {
-                  // Burada Başvuru Listele sayfasına yönlendirme yapabilirsiniz.
-                  Navigator.pop(context);
-                  // Navigator.pushNamed(context, '/basvuruListele');
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: _buildDrawer(context),
         body: BlocListener<BasvuruBloc, BasvuruState>(
           listener: (context, state) {
             if (state is BasvuruSuccess) {
@@ -97,20 +66,6 @@ class BasvuruForm extends StatelessWidget {
                       SizedBox(height: 16.0),
                       DropdownButtonFormField<String>(
                         decoration:
-                            InputDecoration(labelText: 'Başvuran Birim'),
-                        items: state.basvuranBirimList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          selectedBasvuranBirim = newValue;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      DropdownButtonFormField<String>(
-                        decoration:
                             InputDecoration(labelText: 'Başvuru Yapılan Tür'),
                         items: state.basvuruTurList.map((String value) {
                           return DropdownMenuItem<String>(
@@ -120,6 +75,20 @@ class BasvuruForm extends StatelessWidget {
                         }).toList(),
                         onChanged: (newValue) {
                           selectedBasvuruTur = newValue;
+                        },
+                      ),
+                      SizedBox(height: 16.0),
+                      DropdownButtonFormField<String>(
+                        decoration:
+                            InputDecoration(labelText: 'Başvuran Birim'),
+                        items: state.basvuranBirimList.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          selectedBasvuranBirim = newValue;
                         },
                       ),
                       SizedBox(height: 16.0),
@@ -200,6 +169,45 @@ class BasvuruForm extends StatelessWidget {
             },
           ),
         ),
+      ),
+    );
+  }
+
+  // Drawer (Sol Menü) Yapısı
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'GSB Menü',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Başvuru İşlemleri'),
+            onTap: () {
+              // Başvuru İşlemleri sayfasına yönlendirme
+              Navigator.pushReplacementNamed(context, '/basvuru-form');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.list),
+            title: Text('Başvuru Listele'),
+            onTap: () {
+              // Başvuru Listele sayfasına yönlendirme
+              Navigator.pushReplacementNamed(context, '/basvuru-listele');
+            },
+          ),
+        ],
       ),
     );
   }
