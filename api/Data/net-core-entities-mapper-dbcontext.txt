@@ -1,0 +1,271 @@
+---------------------------------- IYS_tblSehirler (BAŞLANGIÇ) ----------------------------------
+using System;
+using System.Collections.Generic;
+namespace Sistem.Data.Entities
+{
+    public class IYS_tblSehirler : EntityBase, IEntity
+    {
+        public int sehir_ID { get; set; }
+        public int? ulke_ID_FK { get; set; }
+        public IYS_tblUlkeler? KEY_ulke_ID_FK { get; set; }
+        public int? bolge_ID_FK { get; set; }
+        public IYS_tblBolgeler? KEY_bolge_ID_FK { get; set; }
+        public string? kod { get; set; }
+        public string? merkez_noktasi { get; set; }
+        public string? sinirlar { get; set; }
+        public string? telefon_kodu { get; set; }
+        public string? trafik_kodu { get; set; }
+        public string? sehir_adi { get; set; }
+        public string? sehir_adi_seo { get; set; }
+        public ICollection<IYS_tblIlceler>? LIST_IYS_tblIlceler_sehir_ID_FK { get; set; }
+    }
+}
+---------------------------------- IYS_tblSehirler (BİTİŞ) ----------------------------------
+
+
+
+---------------------------------- IYS_tblIlceler (BAŞLANGIÇ) ----------------------------------
+using System;
+using System.Collections.Generic;
+namespace Sistem.Data.Entities
+{
+    public class IYS_tblIlceler : EntityBase, IEntity
+    {
+        public int ilce_ID { get; set; }
+        public int? ulke_ID_FK { get; set; }
+        public IYS_tblUlkeler? KEY_ulke_ID_FK { get; set; }
+        public int? bolge_ID_FK { get; set; }
+        public IYS_tblBolgeler? KEY_bolge_ID_FK { get; set; }
+        public int? sehir_ID_FK { get; set; }
+        public IYS_tblSehirler? KEY_sehir_ID_FK { get; set; }
+        public string? kod { get; set; }
+        public string? merkez_noktasi { get; set; }
+        public string? sinirlar { get; set; }
+        public string? telefon_kodu { get; set; }
+        public string? trafik_kodu { get; set; }
+        public string? ilce_adi { get; set; }
+        public string? ilce_adi_seo { get; set; }
+
+        public ICollection<IYS_tblFirmalar>? LIST_IYS_tblFirmalar_ilce_ID_FK { get; set; }
+        public ICollection<IYS_tblIsletmeler>? LIST_IYS_tblIsletmeler_ilce_ID_FK { get; set; }
+    }
+}
+---------------------------------- IYS_tblIlceler (BİTİŞ) ----------------------------------
+
+
+
+---------------------------------- IYS_tblSehirler_Map (BAŞLANGIÇ) ----------------------------------
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Sistem.Data.Entities;
+
+namespace Sistem.Data.EntityFramework.Mappings
+{
+    public class IYS_tblSehirler_Map : IEntityTypeConfiguration<IYS_tblSehirler>
+    {
+        Enums.EnumTypes.VeritabaniTipleri enVeritabaniTipi = Enums.EnumTypes.VeritabaniTipleri.MicrosoftSQLServer;
+        Enums.EnumTypes.VeritabaniSutunTipleri enVeritabaniSutunTipi;
+        public IYS_tblSehirler_Map(Enums.EnumTypes.VeritabaniTipleri _enVeritabaniTipi, Enums.EnumTypes.VeritabaniSutunTipleri _enVeritabaniSutunTipi)
+        {
+            enVeritabaniTipi = _enVeritabaniTipi;
+            enVeritabaniSutunTipi = _enVeritabaniSutunTipi;
+        }
+        public void Configure(EntityTypeBuilder<IYS_tblSehirler> builder)
+        {
+            builder.HasKey(a => a.sehir_ID);
+            builder.Property(a => a.sehir_ID).ValueGeneratedOnAdd();
+
+            builder.Property(a => a.ulke_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+
+            builder.Property(a => a.kod).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Ignore(a => a.benzersiz_deger);
+
+            builder.Property(a => a.resim_orijinal).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_buyuk).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_orta).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_kucuk).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+
+            builder.Property(a => a.merkez_noktasi).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.sinirlar).HasColumnType(enVeritabaniSutunTipi.sutun_varcharmax);
+            builder.Property(a => a.telefon_kodu).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(20)");
+            builder.Property(a => a.trafik_kodu).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(20)");
+            builder.Property(a => a.sehir_adi).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.sehir_adi_seo).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+
+            builder.Property(a => a.sira).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.durum).HasColumnType(enVeritabaniSutunTipi.sutun_tinyint);
+
+            builder.Property(a => a.ekleyen_kullanici_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.eklenme_tarihi).HasColumnType(enVeritabaniSutunTipi.sutun_datetime);
+            builder.Property(a => a.ekleyen_ip).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Property(a => a.ekleyen_tarayici_bilgileri).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(1000)");
+            builder.Property(a => a.guncelleyen_kullanici_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.guncellenme_tarihi).HasColumnType(enVeritabaniSutunTipi.sutun_datetime);
+            builder.Property(a => a.guncelleyen_ip).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Property(a => a.guncelleyen_tarayici_bilgileri).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(1000)");
+
+            builder.HasOne<IYS_tblUlkeler>(a => a.KEY_ulke_ID_FK).WithMany(a => a.LIST_IYS_tblSehirler_ulke_ID_FK).HasForeignKey(a => a.ulke_ID_FK).HasConstraintName("FK_IYSS_ulke_ID");
+
+            builder.ToTable(nameof(IYS_tblSehirler));
+        }
+    }
+}
+
+---------------------------------- IYS_tblSehirler_Map (BİTİŞ) ----------------------------------
+
+
+---------------------------------- IYS_tblIlceler_Map (BAŞLANGIÇ) ----------------------------------
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Sistem.Data.Entities;
+
+namespace Sistem.Data.EntityFramework.Mappings
+{
+    public class IYS_tblIlceler_Map : IEntityTypeConfiguration<IYS_tblIlceler>
+    {
+        Enums.EnumTypes.VeritabaniTipleri enVeritabaniTipi = Enums.EnumTypes.VeritabaniTipleri.MicrosoftSQLServer;
+        Enums.EnumTypes.VeritabaniSutunTipleri enVeritabaniSutunTipi;
+        public IYS_tblIlceler_Map(Enums.EnumTypes.VeritabaniTipleri _enVeritabaniTipi, Enums.EnumTypes.VeritabaniSutunTipleri _enVeritabaniSutunTipi)
+        {
+            enVeritabaniTipi = _enVeritabaniTipi;
+            enVeritabaniSutunTipi = _enVeritabaniSutunTipi;
+        }
+        public void Configure(EntityTypeBuilder<IYS_tblIlceler> builder)
+        {
+            builder.HasKey(a => a.ilce_ID);
+            builder.Property(a => a.ilce_ID).ValueGeneratedOnAdd();
+
+            builder.Property(a => a.ulke_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.bolge_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.sehir_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+
+            builder.Property(a => a.kod).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Ignore(a => a.benzersiz_deger);
+
+            builder.Property(a => a.resim_orijinal).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_buyuk).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_orta).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.resim_kucuk).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+
+            builder.Property(a => a.merkez_noktasi).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.sinirlar).HasColumnType(enVeritabaniSutunTipi.sutun_varcharmax);
+            builder.Property(a => a.telefon_kodu).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(20)");
+            builder.Property(a => a.trafik_kodu).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(20)");
+            builder.Property(a => a.ilce_adi).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+            builder.Property(a => a.ilce_adi_seo).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(255)");
+
+            builder.Property(a => a.sira).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.durum).HasColumnType(enVeritabaniSutunTipi.sutun_tinyint);
+
+            builder.Property(a => a.ekleyen_kullanici_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.eklenme_tarihi).HasColumnType(enVeritabaniSutunTipi.sutun_datetime);
+            builder.Property(a => a.ekleyen_ip).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Property(a => a.ekleyen_tarayici_bilgileri).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(1000)");
+            builder.Property(a => a.guncelleyen_kullanici_ID_FK).HasColumnType(enVeritabaniSutunTipi.sutun_int);
+            builder.Property(a => a.guncellenme_tarihi).HasColumnType(enVeritabaniSutunTipi.sutun_datetime);
+            builder.Property(a => a.guncelleyen_ip).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(50)");
+            builder.Property(a => a.guncelleyen_tarayici_bilgileri).HasColumnType(enVeritabaniSutunTipi.sutun_varchar + "(1000)");
+
+            builder.HasOne<IYS_tblUlkeler>(a => a.KEY_ulke_ID_FK).WithMany(a => a.LIST_IYS_tblIlceler_ulke_ID_FK).HasForeignKey(a => a.ulke_ID_FK).HasConstraintName("FK_IYSIlce_ulke_ID");
+            builder.HasOne<IYS_tblBolgeler>(a => a.KEY_bolge_ID_FK).WithMany(a => a.LIST_IYS_tblIlceler_bolge_ID_FK).HasForeignKey(a => a.bolge_ID_FK).HasConstraintName("FK_IYSIlce_bolge_ID");
+            builder.HasOne<IYS_tblSehirler>(a => a.KEY_sehir_ID_FK).WithMany(a => a.LIST_IYS_tblIlceler_sehir_ID_FK).HasForeignKey(a => a.sehir_ID_FK).HasConstraintName("FK_IYSIlce_sehir_ID");
+            builder.HasOne<IYS_tblKullanicilar>(a => a.KEY_ekleyen_kullanici_ID_FK).WithMany(a => a.LIST_IYS_tblIlceler_ekleyen_kullanici_ID_FK).HasForeignKey(a => a.ekleyen_kullanici_ID_FK).HasConstraintName("FK_IYSIlce_ekleyen_kullanici_ID");
+            builder.HasOne<IYS_tblKullanicilar>(a => a.KEY_guncelleyen_kullanici_ID_FK).WithMany(a => a.LIST_IYS_tblIlceler_guncelleyen_kullanici_ID_FK).HasForeignKey(a => a.guncelleyen_kullanici_ID_FK).HasConstraintName("FK_IYSIlce_guncelleyen_kullanici_ID");
+
+            builder.ToTable(nameof(IYS_tblIlceler));
+        }
+    }
+}
+---------------------------------- IYS_tblIlceler_Map (BİTİŞ) ----------------------------------
+
+
+
+---------------------------------- DbContext (BAŞLANGIÇ) ----------------------------------
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Sistem.Data.Entities;
+using Sistem.Data.EntityFramework.Mappings;
+
+namespace Sistem.Data.EntityFramework
+{
+    public class SistemDBContext : DbContext
+    {
+        Enums.EnumTypes.VeritabaniTipleri enVeritabaniTipi = Enums.EnumTypes.VeritabaniTipleri.MicrosoftSQLServer;
+
+        
+        public DbSet<IYS_tblSehirler>? IYS_tblSehirler { get; set; }
+        public DbSet<IYS_tblIlceler>? IYS_tblIlceler { get; set; }
+        
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // MySQL
+            //IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+            //string strBaglanti = configuration.GetConnectionString("MySQLServerProvider");
+            //optionsBuilder.UseMySql("server=localhost;database=veritabaniDB;user=root;password=SQLSifresi;", ServerVersion.AutoDetect("server=localhost;database=coreDB;user=root;password=root;"));
+            //optionsBuilder.EnableSensitiveDataLogging();
+
+            // PostgreSQL
+            //IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+            //string strBaglanti = configuration.GetConnectionString("PostgreSQLProvider");
+            //optionsBuilder.UseNpgsql("User ID=postgres;Password=SQLSifresi;Server=localhost;Port=5432;Database=mikroDB;Integrated Security=true;Pooling=true;");
+
+            // SQLServer
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+            string? strBaglanti = configuration.GetConnectionString("SQLServerProvider");
+            optionsBuilder.UseSqlServer(strBaglanti, builder => { builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null); });
+            //optionsBuilder.UseSqlServer("Server=.;Database=cizgisiteDB;Trusted_Connection=True;Connect Timeout=30;MultipleActiveResultSets=True;TrustServerCertificate=True");
+            //optionsBuilder.UseSqlServer("Server=localhost;Database=veritabaniDB;User ID=user;Password=SQLSifresi;trusted_connection=false;MultipleActiveResultSets=true;TrustServerCertificate=True");
+
+
+            // Oracle
+            //IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+            //string strBaglanti = configuration.GetConnectionString("OracleProvider");
+            //optionsBuilder.UseOracle("User Id=SYSTEM;Password=SQLSifresi;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))", options => options.UseOracleSQLCompatibility("12"));
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            Enums.EnumTypes.VeritabaniSutunTipleri sutun_tipleri = new Enums.EnumTypes.VeritabaniSutunTipleri();
+            if (enVeritabaniTipi == Enums.EnumTypes.VeritabaniTipleri.Oracle)
+            {
+                // ÖNEMLİ (BAŞLANGIÇ)
+                // Scaffold yapıldığında already şeklinde hata veriyorsa önceden oluşmuş sequence'ı tekrar oluşturmaya çalıştığı içindir.
+                // Yani aynı sequence değerini tekrar yazdığı için.
+                // ÖNEMLİ (BİTİŞ)
+                sutun_tipleri.sutun_varchar = sutun_tipleri.sutun_varchar2;
+                sutun_tipleri.sutun_varcharmax = sutun_tipleri.sutun_nclob;
+                sutun_tipleri.sutun_bigint = sutun_tipleri.sutun_number19;
+                sutun_tipleri.sutun_int = sutun_tipleri.sutun_number10;
+                sutun_tipleri.sutun_tinyint = sutun_tipleri.sutun_number3;
+                sutun_tipleri.sutun_datetime = sutun_tipleri.sutun_timestamp3;
+                sutun_tipleri.sutun_smalldatetime = sutun_tipleri.sutun_timestamp3;
+                sutun_tipleri.sutun_float = sutun_tipleri.sutun_binary_double;
+            }
+            else if (enVeritabaniTipi == Enums.EnumTypes.VeritabaniTipleri.MySQL)
+            {
+                sutun_tipleri.sutun_nvarchar = sutun_tipleri.sutun_text;
+                sutun_tipleri.sutun_varcharmax = sutun_tipleri.sutun_longtext;
+                sutun_tipleri.sutun_nvarcharmax = sutun_tipleri.sutun_longtext;
+                sutun_tipleri.sutun_smalldatetime = sutun_tipleri.sutun_date;
+            }
+            else if (enVeritabaniTipi == Enums.EnumTypes.VeritabaniTipleri.MicrosoftSQLServer)
+            {
+                sutun_tipleri.sutun_date = sutun_tipleri.sutun_smalldatetime;
+            }
+            else if (enVeritabaniTipi == Enums.EnumTypes.VeritabaniTipleri.PostgreSQL)
+            {
+                sutun_tipleri.sutun_varcharmax = sutun_tipleri.sutun_text;
+                sutun_tipleri.sutun_tinyint = sutun_tipleri.sutun_smallint;
+                sutun_tipleri.sutun_datetime = sutun_tipleri.sutun_timestamp;
+                sutun_tipleri.sutun_smalldatetime = sutun_tipleri.sutun_date;
+                sutun_tipleri.sutun_bit = sutun_tipleri.sutun_boolean;
+            }
+
+
+            modelBuilder.ApplyConfiguration(new IYS_tblSehirler_Map(enVeritabaniTipi, sutun_tipleri));
+            modelBuilder.ApplyConfiguration(new IYS_tblIlceler_Map(enVeritabaniTipi, sutun_tipleri));
+        }
+    }
+}
+---------------------------------- DbContext (BİTİŞ) ----------------------------------

@@ -30,16 +30,16 @@ namespace api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<int>("TipId")
-                        .HasColumnType("integer");
+                    b.Property<int?>("TipId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TipId");
 
-                    b.ToTable("AltTipler");
+                    b.ToTable("AltTip", (string)null);
                 });
 
             modelBuilder.Entity("Basvuru", b =>
@@ -50,25 +50,46 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("AciklanmaTarihi")
+                        .HasColumnType("timestamp");
+
                     b.Property<int?>("AltTipId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("BasvuruAdi")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int?>("BasvuranBirimId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("BasvuruDurumId")
-                        .HasColumnType("integer");
+                    b.Property<int?>("BasvuruDonemId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("BasvuruYapilanProjeId")
-                        .HasColumnType("integer");
+                    b.Property<int?>("BasvuruDurumId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("BasvuruYapilanTurId")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("BasvuruTarihi")
+                        .HasColumnType("timestamp");
+
+                    b.Property<int?>("BasvuruYapilanProjeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BasvuruYapilanTurId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("HibeTutari")
+                        .HasColumnType("decimal");
+
+                    b.Property<int?>("KatilimciTurId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjeAdi")
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AltTipId");
+
+                    b.HasIndex("BasvuranBirimId");
+
+                    b.HasIndex("BasvuruDonemId");
 
                     b.HasIndex("BasvuruDurumId");
 
@@ -76,7 +97,9 @@ namespace api.Migrations
 
                     b.HasIndex("BasvuruYapilanTurId");
 
-                    b.ToTable("Basvurular");
+                    b.HasIndex("KatilimciTurId");
+
+                    b.ToTable("Basvuru", (string)null);
                 });
 
             modelBuilder.Entity("Kullanici", b =>
@@ -89,30 +112,30 @@ namespace api.Migrations
 
                     b.Property<string>("KullaniciAdi")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Sifre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kullanicilar");
+                    b.ToTable("Kullanici", (string)null);
                 });
 
             modelBuilder.Entity("KullaniciBasvuru", b =>
                 {
                     b.Property<int>("KullaniciId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.Property<int>("BasvuruId")
-                        .HasColumnType("integer");
+                        .HasColumnType("int");
 
                     b.HasKey("KullaniciId", "BasvuruId");
 
                     b.HasIndex("BasvuruId");
 
-                    b.ToTable("KullaniciBasvurular");
+                    b.ToTable("KullaniciBasvuru", (string)null);
                 });
 
             modelBuilder.Entity("Tip", b =>
@@ -124,20 +147,51 @@ namespace api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tipler");
+                    b.ToTable("Tip", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ad = "Başvuran Birim"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ad = "Basvuru Yapılan Proje"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ad = "Başvuru Yapılan Tür"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Ad = "Katılımcı Türü"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Ad = "Başvuru Dönemi"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Ad = "Başvuru Durumu"
+                        });
                 });
 
             modelBuilder.Entity("AltTip", b =>
                 {
                     b.HasOne("Tip", "Tip")
-                        .WithMany("AltTipler")
+                        .WithMany("ListAltTipler")
                         .HasForeignKey("TipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_AltTip_TipId");
 
                     b.Navigation("Tip");
                 });
@@ -145,32 +199,49 @@ namespace api.Migrations
             modelBuilder.Entity("Basvuru", b =>
                 {
                     b.HasOne("AltTip", null)
-                        .WithMany("Basvurular")
+                        .WithMany("ListBasvurular")
                         .HasForeignKey("AltTipId");
 
+                    b.HasOne("Tip", "BasvuranBirim")
+                        .WithMany("ListBasvuranBirim")
+                        .HasForeignKey("BasvuranBirimId");
+
+                    b.HasOne("Tip", "BasvuruDonemi")
+                        .WithMany("ListBasvuruDonemi")
+                        .HasForeignKey("BasvuruDonemId")
+                        .HasConstraintName("FK_Basvuru_BasvuruDonemId");
+
                     b.HasOne("Tip", "BasvuruDurumu")
-                        .WithMany("Basvurular")
+                        .WithMany("ListBasvuruDurumu")
                         .HasForeignKey("BasvuruDurumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Basvuru_BasvuruDurumId");
 
                     b.HasOne("Tip", "BasvuruYapilanProje")
-                        .WithMany("BasvurularProje")
+                        .WithMany("ListBasvuruYapilanProje")
                         .HasForeignKey("BasvuruYapilanProjeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Basvuru_BasvuruYapilanProjeId");
 
                     b.HasOne("Tip", "BasvuruYapilanTur")
-                        .WithMany("BasvurularTur")
+                        .WithMany("ListBasvuruYapilanTur")
                         .HasForeignKey("BasvuruYapilanTurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Basvuru_BasvuruYapilanTurId");
+
+                    b.HasOne("Tip", "KatilimciTuru")
+                        .WithMany("ListKatilimciTuru")
+                        .HasForeignKey("KatilimciTurId")
+                        .HasConstraintName("FK_Basvuru_KatilimciTurId");
+
+                    b.Navigation("BasvuranBirim");
+
+                    b.Navigation("BasvuruDonemi");
 
                     b.Navigation("BasvuruDurumu");
 
                     b.Navigation("BasvuruYapilanProje");
 
                     b.Navigation("BasvuruYapilanTur");
+
+                    b.Navigation("KatilimciTuru");
                 });
 
             modelBuilder.Entity("KullaniciBasvuru", b =>
@@ -194,7 +265,7 @@ namespace api.Migrations
 
             modelBuilder.Entity("AltTip", b =>
                 {
-                    b.Navigation("Basvurular");
+                    b.Navigation("ListBasvurular");
                 });
 
             modelBuilder.Entity("Basvuru", b =>
@@ -209,13 +280,19 @@ namespace api.Migrations
 
             modelBuilder.Entity("Tip", b =>
                 {
-                    b.Navigation("AltTipler");
+                    b.Navigation("ListAltTipler");
 
-                    b.Navigation("Basvurular");
+                    b.Navigation("ListBasvuranBirim");
 
-                    b.Navigation("BasvurularProje");
+                    b.Navigation("ListBasvuruDonemi");
 
-                    b.Navigation("BasvurularTur");
+                    b.Navigation("ListBasvuruDurumu");
+
+                    b.Navigation("ListBasvuruYapilanProje");
+
+                    b.Navigation("ListBasvuruYapilanTur");
+
+                    b.Navigation("ListKatilimciTuru");
                 });
 #pragma warning restore 612, 618
         }
