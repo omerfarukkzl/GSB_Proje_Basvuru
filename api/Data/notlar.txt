@@ -1,18 +1,18 @@
 
 //  Migration'a göre Db Update eder ve oluşturur.
 
-dotnet ef database update --context ApplicationDbContext  
+dotnet ef database update --context AppDbContext  
 
 // Migration oluşturur
 
-dotnet ef migrations add InitialCreate --context ApplicationDbContext
+dotnet ef migrations add InitialCreate --context AppDbContext
 
 // Migration'ı sil
 ef migrations remove
 
 // Db table temizleme
 
-dotnet ef database update 0  --context ApplicationDbContext
+dotnet ef database update 0  --context AppDbContext
 
 
 
