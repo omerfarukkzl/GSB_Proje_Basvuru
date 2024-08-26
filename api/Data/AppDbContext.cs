@@ -5,7 +5,6 @@ public class AppDbContext : DbContext
 {
     public DbSet<Kullanici> Kullanicilar { get; set; }
     public DbSet<Basvuru> Basvurular { get; set; }
-    public DbSet<KullaniciBasvuru> KullaniciBasvurular { get; set; }
     public DbSet<Tip> Tipler { get; set; }
     public DbSet<AltTip> AltTipler { get; set; }
 
@@ -40,13 +39,13 @@ public class AppDbContext : DbContext
             //optionsBuilder.UseOracle("User Id=SYSTEM;Password=SQLSifresi;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XEPDB1)))", options => options.UseOracleSQLCompatibility("12"));
         }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {   
+    {
 
+        modelBuilder.ApplyConfiguration(new RollerMap());
         modelBuilder.ApplyConfiguration(new KullaniciMap());
         modelBuilder.ApplyConfiguration(new TipMap());
         modelBuilder.ApplyConfiguration(new AltTipMap());
         modelBuilder.ApplyConfiguration(new BasvuruMap());       
-        modelBuilder.ApplyConfiguration(new KullaniciBasvuruMap());
 
 
 

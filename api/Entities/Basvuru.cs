@@ -3,6 +3,9 @@ using api.Entities;
 public class Basvuru : BaseClass
 {
     public int Id { get; set; }
+    
+    public int? KullaniciId { get; set; }
+    public Kullanici BasvuranKullanici { get; set; }
     public string? ProjeAdi { get; set; }
 
     public int? BasvuranBirimId { get; set; }
@@ -28,5 +31,5 @@ public class Basvuru : BaseClass
 
     public decimal? HibeTutari { get; set; }
 
-    public ICollection<KullaniciBasvuru> KullaniciBasvurular { get; set; }
+
 }

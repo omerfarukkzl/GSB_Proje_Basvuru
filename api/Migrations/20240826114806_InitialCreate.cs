@@ -15,18 +15,16 @@ namespace api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Kullanici",
+                name: "Roller",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    KullaniciAdi = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Sifre = table.Column<string>(type: "varchar(50)", nullable: false),
-                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
+                    RolAdi = table.Column<string>(type: "varchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kullanici", x => x.Id);
+                    table.PrimaryKey("PK_Roller", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,6 +39,28 @@ namespace api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tip", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kullanici",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RolId = table.Column<int>(type: "int", nullable: false, defaultValue: 2),
+                    KullaniciAdi = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Sifre = table.Column<string>(type: "varchar(50)", nullable: false),
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kullanici", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Roller_RolId",
+                        column: x => x.RolId,
+                        principalTable: "Roller",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +89,7 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    KullaniciId = table.Column<int>(type: "integer", nullable: true),
                     ProjeAdi = table.Column<string>(type: "varchar(50)", nullable: true),
                     BasvuranBirimId = table.Column<int>(type: "int", nullable: true),
                     BasvuruYapilanProjeId = table.Column<int>(type: "int", nullable: true),
@@ -114,31 +135,20 @@ namespace api.Migrations
                         column: x => x.KatilimciTurId,
                         principalTable: "AltTip",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "KullaniciBasvuru",
-                columns: table => new
-                {
-                    KullaniciId = table.Column<int>(type: "int", nullable: false),
-                    BasvuruId = table.Column<int>(type: "int", nullable: false),
-                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KullaniciBasvuru", x => new { x.KullaniciId, x.BasvuruId });
                     table.ForeignKey(
-                        name: "FK_KullaniciBasvuru_Basvuru_BasvuruId",
-                        column: x => x.BasvuruId,
-                        principalTable: "Basvuru",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_KullaniciBasvuru_Kullanici_KullaniciId",
+                        name: "FK_Basvuru_KullaniciId",
                         column: x => x.KullaniciId,
                         principalTable: "Kullanici",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roller",
+                columns: new[] { "Id", "RolAdi" },
+                values: new object[,]
+                {
+                    { 1, "admin" },
+                    { 2, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -181,6 +191,15 @@ namespace api.Migrations
                     { 20, "Red", null, 6 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Kullanici",
+                columns: new[] { "Id", "KullaniciAdi", "RolId", "Sifre", "SilinmeDurumu" },
+                values: new object[,]
+                {
+                    { 1, "admin", 1, "admin", null },
+                    { 2, "user", 2, "user", null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AltTip_TipId",
                 table: "AltTip",
@@ -217,28 +236,33 @@ namespace api.Migrations
                 column: "KatilimciTurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KullaniciBasvuru_BasvuruId",
-                table: "KullaniciBasvuru",
-                column: "BasvuruId");
+                name: "IX_Basvuru_KullaniciId",
+                table: "Basvuru",
+                column: "KullaniciId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kullanici_RolId",
+                table: "Kullanici",
+                column: "RolId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "KullaniciBasvuru");
-
-            migrationBuilder.DropTable(
                 name: "Basvuru");
-
-            migrationBuilder.DropTable(
-                name: "Kullanici");
 
             migrationBuilder.DropTable(
                 name: "AltTip");
 
             migrationBuilder.DropTable(
+                name: "Kullanici");
+
+            migrationBuilder.DropTable(
                 name: "Tip");
+
+            migrationBuilder.DropTable(
+                name: "Roller");
         }
     }
 }

@@ -41,6 +41,7 @@ namespace api.Mappings
             builder.HasOne<AltTip>(a => a.BasvuruYapilanTur).WithMany(a => a.ListBasvuruYapilanTur).HasForeignKey(a => a.BasvuruYapilanTurId).HasConstraintName("FK_Basvuru_BasvuruYapilanTurId");
             builder.HasOne<AltTip>(a => a.KatilimciTuru).WithMany(a => a.ListKatilimciTuru).HasForeignKey(a => a.KatilimciTurId).HasConstraintName("FK_Basvuru_KatilimciTurId");
             builder.HasOne<AltTip>(a => a.BasvuruDonemi).WithMany(a => a.ListBasvuruDonemi).HasForeignKey(a => a.BasvuruDonemId).HasConstraintName("FK_Basvuru_BasvuruDonemId");
+            builder.HasOne<Kullanici>(a => a.BasvuranKullanici).WithMany(a => a.ListBasvuranKullanici).HasForeignKey(a => a.KullaniciId).HasConstraintName("FK_Basvuru_KullaniciId");
 
             builder.ToTable(nameof(Basvuru));
             

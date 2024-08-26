@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240826083158_InitialCreate")]
+    [Migration("20240826114806_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -205,6 +205,9 @@ namespace api.Migrations
                     b.Property<int?>("KatilimciTurId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("KullaniciId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ProjeAdi")
                         .HasColumnType("varchar(50)");
 
@@ -225,6 +228,8 @@ namespace api.Migrations
 
                     b.HasIndex("KatilimciTurId");
 
+                    b.HasIndex("KullaniciId");
+
                     b.ToTable("Basvuru", (string)null);
                 });
 
@@ -240,6 +245,11 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("RolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(2);
+
                     b.Property<string>("Sifre")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
@@ -249,25 +259,25 @@ namespace api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RolId");
+
                     b.ToTable("Kullanici", (string)null);
-                });
 
-            modelBuilder.Entity("KullaniciBasvuru", b =>
-                {
-                    b.Property<int>("KullaniciId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BasvuruId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("SilinmeDurumu")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("KullaniciId", "BasvuruId");
-
-                    b.HasIndex("BasvuruId");
-
-                    b.ToTable("KullaniciBasvuru", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            KullaniciAdi = "admin",
+                            RolId = 1,
+                            Sifre = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            KullaniciAdi = "user",
+                            RolId = 2,
+                            Sifre = "user"
+                        });
                 });
 
             modelBuilder.Entity("Tip", b =>
@@ -321,6 +331,34 @@ namespace api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("api.Entities.Roller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("RolAdi")
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roller", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RolAdi = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RolAdi = "user"
+                        });
+                });
+
             modelBuilder.Entity("AltTip", b =>
                 {
                     b.HasOne("Tip", "Tip")
@@ -363,7 +401,14 @@ namespace api.Migrations
                         .HasForeignKey("KatilimciTurId")
                         .HasConstraintName("FK_Basvuru_KatilimciTurId");
 
+                    b.HasOne("Kullanici", "BasvuranKullanici")
+                        .WithMany("ListBasvuranKullanici")
+                        .HasForeignKey("KullaniciId")
+                        .HasConstraintName("FK_Basvuru_KullaniciId");
+
                     b.Navigation("BasvuranBirim");
+
+                    b.Navigation("BasvuranKullanici");
 
                     b.Navigation("BasvuruDonemi");
 
@@ -376,23 +421,16 @@ namespace api.Migrations
                     b.Navigation("KatilimciTuru");
                 });
 
-            modelBuilder.Entity("KullaniciBasvuru", b =>
+            modelBuilder.Entity("Kullanici", b =>
                 {
-                    b.HasOne("Basvuru", "Basvuru")
-                        .WithMany("KullaniciBasvurular")
-                        .HasForeignKey("BasvuruId")
+                    b.HasOne("api.Entities.Roller", "KullaniciRol")
+                        .WithMany("ListRoller")
+                        .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Roller_RolId");
 
-                    b.HasOne("Kullanici", "Kullanici")
-                        .WithMany("KullaniciBasvurulari")
-                        .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Basvuru");
-
-                    b.Navigation("Kullanici");
+                    b.Navigation("KullaniciRol");
                 });
 
             modelBuilder.Entity("AltTip", b =>
@@ -410,19 +448,19 @@ namespace api.Migrations
                     b.Navigation("ListKatilimciTuru");
                 });
 
-            modelBuilder.Entity("Basvuru", b =>
-                {
-                    b.Navigation("KullaniciBasvurular");
-                });
-
             modelBuilder.Entity("Kullanici", b =>
                 {
-                    b.Navigation("KullaniciBasvurulari");
+                    b.Navigation("ListBasvuranKullanici");
                 });
 
             modelBuilder.Entity("Tip", b =>
                 {
                     b.Navigation("ListAltTipler");
+                });
+
+            modelBuilder.Entity("api.Entities.Roller", b =>
+                {
+                    b.Navigation("ListRoller");
                 });
 #pragma warning restore 612, 618
         }
