@@ -17,34 +17,80 @@ public class BasvuruController : ControllerBase
 
     // GET: api/Basvuru
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Basvuru>>> GetBasvurular()
+    public async Task<ActionResult<IEnumerable<BasvuruDto>>> GetBasvurular()
     {
-        return await _context.Basvurular.ToListAsync();
+        var basvurular = await _context.Basvurular
+            .Select(basvuru => new BasvuruDto
+            {
+                Id = basvuru.Id,
+                ProjeAdi = basvuru.ProjeAdi,
+                BasvuranBirimId = basvuru.BasvuranBirimId,
+                BasvuruYapilanProjeId = basvuru.BasvuruYapilanProjeId,
+                BasvuruYapilanTurId = basvuru.BasvuruYapilanTurId,
+                KatilimciTurId = basvuru.KatilimciTurId,
+                BasvuruDonemId = basvuru.BasvuruDonemId,
+                BasvuruDurumId = basvuru.BasvuruDurumId,
+                BasvuruTarihi = basvuru.BasvuruTarihi,
+                AciklanmaTarihi = basvuru.AciklanmaTarihi,
+                HibeTutari = basvuru.HibeTutari
+            }).ToListAsync();
+
+        return Ok(basvurular);
     }
 
     // GET: api/Basvuru/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Basvuru>> GetBasvuru(int id)
+    public async Task<ActionResult<BasvuruDto>> GetBasvuru(int id)
     {
-        var basvuru = await _context.Basvurular.FindAsync(id);
+        var basvuru = await _context.Basvurular
+            .Select(basvuru => new BasvuruDto
+            {
+                Id = basvuru.Id,
+                ProjeAdi = basvuru.ProjeAdi,
+                BasvuranBirimId = basvuru.BasvuranBirimId,
+                BasvuruYapilanProjeId = basvuru.BasvuruYapilanProjeId,
+                BasvuruYapilanTurId = basvuru.BasvuruYapilanTurId,
+                KatilimciTurId = basvuru.KatilimciTurId,
+                BasvuruDonemId = basvuru.BasvuruDonemId,
+                BasvuruDurumId = basvuru.BasvuruDurumId,
+                BasvuruTarihi = basvuru.BasvuruTarihi,
+                AciklanmaTarihi = basvuru.AciklanmaTarihi,
+                HibeTutari = basvuru.HibeTutari
+            }).FirstOrDefaultAsync(b => b.Id == id);
 
         if (basvuru == null)
         {
             return NotFound();
         }
 
-        return basvuru;
+        return Ok(basvuru);
     }
 
     // POST: api/Basvuru
     [HttpPost]
-    public async Task<ActionResult<Basvuru>> PostBasvuru(Basvuru basvuru)
+public async Task<ActionResult<BasvuruDto>> PostBasvuru(BasvuruDto basvuruDto)
+{
+    var basvuru = new Basvuru
     {
-        _context.Basvurular.Add(basvuru);
-        await _context.SaveChangesAsync();
+        ProjeAdi = basvuruDto.ProjeAdi,
+        BasvuranBirimId = basvuruDto.BasvuranBirimId,
+        BasvuruYapilanProjeId = basvuruDto.BasvuruYapilanProjeId,
+        BasvuruYapilanTurId = basvuruDto.BasvuruYapilanTurId,
+        KatilimciTurId = basvuruDto.KatilimciTurId,
+        BasvuruDonemId = basvuruDto.BasvuruDonemId,
+        BasvuruDurumId = basvuruDto.BasvuruDurumId,
+        BasvuruTarihi = basvuruDto.BasvuruTarihi,  
+        AciklanmaTarihi = basvuruDto.AciklanmaTarihi,
+        HibeTutari = basvuruDto.HibeTutari
+    };
 
-        return CreatedAtAction(nameof(GetBasvuru), new { id = basvuru.Id }, basvuru);
-    }
+    _context.Basvurular.Add(basvuru);
+    await _context.SaveChangesAsync();
+
+    basvuruDto.Id = basvuru.Id;
+
+    return CreatedAtAction(nameof(GetBasvuru), new { id = basvuruDto.Id }, basvuruDto);
+}
 
     // DELETE: api/Basvuru/5
     [HttpDelete("{id}")]

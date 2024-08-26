@@ -76,49 +76,43 @@ namespace api.Migrations
                     KatilimciTurId = table.Column<int>(type: "int", nullable: true),
                     BasvuruDonemId = table.Column<int>(type: "int", nullable: true),
                     BasvuruDurumId = table.Column<int>(type: "int", nullable: true),
-                    BasvuruTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    AciklanmaTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    BasvuruTarihi = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
+                    AciklanmaTarihi = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
                     HibeTutari = table.Column<decimal>(type: "decimal", nullable: true),
-                    AltTipId = table.Column<int>(type: "integer", nullable: true),
                     SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Basvuru", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Basvuru_AltTip_AltTipId",
-                        column: x => x.AltTipId,
+                        name: "FK_Basvuru_BasvuranBirimId",
+                        column: x => x.BasvuranBirimId,
                         principalTable: "AltTip",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Basvuru_BasvuruDonemId",
                         column: x => x.BasvuruDonemId,
-                        principalTable: "Tip",
+                        principalTable: "AltTip",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Basvuru_BasvuruDurumId",
                         column: x => x.BasvuruDurumId,
-                        principalTable: "Tip",
+                        principalTable: "AltTip",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Basvuru_BasvuruYapilanProjeId",
                         column: x => x.BasvuruYapilanProjeId,
-                        principalTable: "Tip",
+                        principalTable: "AltTip",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Basvuru_BasvuruYapilanTurId",
                         column: x => x.BasvuruYapilanTurId,
-                        principalTable: "Tip",
+                        principalTable: "AltTip",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Basvuru_KatilimciTurId",
                         column: x => x.KatilimciTurId,
-                        principalTable: "Tip",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Basvuru_Tip_BasvuranBirimId",
-                        column: x => x.BasvuranBirimId,
-                        principalTable: "Tip",
+                        principalTable: "AltTip",
                         principalColumn: "Id");
                 });
 
@@ -160,15 +154,37 @@ namespace api.Migrations
                     { 6, "Başvuru Durumu", null }
                 });
 
+            migrationBuilder.InsertData(
+                table: "AltTip",
+                columns: new[] { "Id", "Ad", "SilinmeDurumu", "TipId" },
+                values: new object[,]
+                {
+                    { 1, "Bilgi İşlem", null, 1 },
+                    { 2, "İnsan Kaynakları", null, 1 },
+                    { 3, "Yatırım İşleri", null, 1 },
+                    { 4, "Erasmus", null, 2 },
+                    { 5, "Merkezi", null, 2 },
+                    { 6, "Avrupa", null, 2 },
+                    { 7, "Diğer", null, 2 },
+                    { 8, "Gençlik", null, 3 },
+                    { 9, "Yetişkin", null, 3 },
+                    { 10, "Spor", null, 3 },
+                    { 11, "Mesleki", null, 3 },
+                    { 12, "Dijital", null, 3 },
+                    { 13, "Diğer", null, 3 },
+                    { 14, "Koordinatör", null, 4 },
+                    { 15, "Ortak", null, 4 },
+                    { 16, "R1", null, 5 },
+                    { 17, "R2", null, 5 },
+                    { 18, "R3", null, 5 },
+                    { 19, "Kabul", null, 6 },
+                    { 20, "Red", null, 6 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AltTip_TipId",
                 table: "AltTip",
                 column: "TipId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Basvuru_AltTipId",
-                table: "Basvuru",
-                column: "AltTipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Basvuru_BasvuranBirimId",

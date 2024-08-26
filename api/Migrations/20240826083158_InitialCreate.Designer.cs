@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240823132030_InitialCreate")]
+    [Migration("20240826083158_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -46,6 +46,128 @@ namespace api.Migrations
                     b.HasIndex("TipId");
 
                     b.ToTable("AltTip", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ad = "Bilgi İşlem",
+                            TipId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ad = "İnsan Kaynakları",
+                            TipId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ad = "Yatırım İşleri",
+                            TipId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Ad = "Erasmus",
+                            TipId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Ad = "Merkezi",
+                            TipId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Ad = "Avrupa",
+                            TipId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Ad = "Diğer",
+                            TipId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Ad = "Gençlik",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Ad = "Yetişkin",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Ad = "Spor",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Ad = "Mesleki",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Ad = "Dijital",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Ad = "Diğer",
+                            TipId = 3
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Ad = "Koordinatör",
+                            TipId = 4
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Ad = "Ortak",
+                            TipId = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Ad = "R1",
+                            TipId = 5
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Ad = "R2",
+                            TipId = 5
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Ad = "R3",
+                            TipId = 5
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Ad = "Kabul",
+                            TipId = 6
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Ad = "Red",
+                            TipId = 6
+                        });
                 });
 
             modelBuilder.Entity("Basvuru", b =>
@@ -56,11 +178,8 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("AciklanmaTarihi")
-                        .HasColumnType("timestamp");
-
-                    b.Property<int?>("AltTipId")
-                        .HasColumnType("integer");
+                    b.Property<DateTimeOffset?>("AciklanmaTarihi")
+                        .HasColumnType("timestamptz");
 
                     b.Property<int?>("BasvuranBirimId")
                         .HasColumnType("int");
@@ -71,8 +190,8 @@ namespace api.Migrations
                     b.Property<int?>("BasvuruDurumId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BasvuruTarihi")
-                        .HasColumnType("timestamp");
+                    b.Property<DateTimeOffset?>("BasvuruTarihi")
+                        .HasColumnType("timestamptz");
 
                     b.Property<int?>("BasvuruYapilanProjeId")
                         .HasColumnType("int");
@@ -93,8 +212,6 @@ namespace api.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AltTipId");
 
                     b.HasIndex("BasvuranBirimId");
 
@@ -216,35 +333,32 @@ namespace api.Migrations
 
             modelBuilder.Entity("Basvuru", b =>
                 {
-                    b.HasOne("AltTip", null)
-                        .WithMany("ListBasvurular")
-                        .HasForeignKey("AltTipId");
-
-                    b.HasOne("Tip", "BasvuranBirim")
+                    b.HasOne("AltTip", "BasvuranBirim")
                         .WithMany("ListBasvuranBirim")
-                        .HasForeignKey("BasvuranBirimId");
+                        .HasForeignKey("BasvuranBirimId")
+                        .HasConstraintName("FK_Basvuru_BasvuranBirimId");
 
-                    b.HasOne("Tip", "BasvuruDonemi")
+                    b.HasOne("AltTip", "BasvuruDonemi")
                         .WithMany("ListBasvuruDonemi")
                         .HasForeignKey("BasvuruDonemId")
                         .HasConstraintName("FK_Basvuru_BasvuruDonemId");
 
-                    b.HasOne("Tip", "BasvuruDurumu")
+                    b.HasOne("AltTip", "BasvuruDurumu")
                         .WithMany("ListBasvuruDurumu")
                         .HasForeignKey("BasvuruDurumId")
                         .HasConstraintName("FK_Basvuru_BasvuruDurumId");
 
-                    b.HasOne("Tip", "BasvuruYapilanProje")
+                    b.HasOne("AltTip", "BasvuruYapilanProje")
                         .WithMany("ListBasvuruYapilanProje")
                         .HasForeignKey("BasvuruYapilanProjeId")
                         .HasConstraintName("FK_Basvuru_BasvuruYapilanProjeId");
 
-                    b.HasOne("Tip", "BasvuruYapilanTur")
+                    b.HasOne("AltTip", "BasvuruYapilanTur")
                         .WithMany("ListBasvuruYapilanTur")
                         .HasForeignKey("BasvuruYapilanTurId")
                         .HasConstraintName("FK_Basvuru_BasvuruYapilanTurId");
 
-                    b.HasOne("Tip", "KatilimciTuru")
+                    b.HasOne("AltTip", "KatilimciTuru")
                         .WithMany("ListKatilimciTuru")
                         .HasForeignKey("KatilimciTurId")
                         .HasConstraintName("FK_Basvuru_KatilimciTurId");
@@ -283,7 +397,17 @@ namespace api.Migrations
 
             modelBuilder.Entity("AltTip", b =>
                 {
-                    b.Navigation("ListBasvurular");
+                    b.Navigation("ListBasvuranBirim");
+
+                    b.Navigation("ListBasvuruDonemi");
+
+                    b.Navigation("ListBasvuruDurumu");
+
+                    b.Navigation("ListBasvuruYapilanProje");
+
+                    b.Navigation("ListBasvuruYapilanTur");
+
+                    b.Navigation("ListKatilimciTuru");
                 });
 
             modelBuilder.Entity("Basvuru", b =>
@@ -299,18 +423,6 @@ namespace api.Migrations
             modelBuilder.Entity("Tip", b =>
                 {
                     b.Navigation("ListAltTipler");
-
-                    b.Navigation("ListBasvuranBirim");
-
-                    b.Navigation("ListBasvuruDonemi");
-
-                    b.Navigation("ListBasvuruDurumu");
-
-                    b.Navigation("ListBasvuruYapilanProje");
-
-                    b.Navigation("ListBasvuruYapilanTur");
-
-                    b.Navigation("ListKatilimciTuru");
                 });
 #pragma warning restore 612, 618
         }
