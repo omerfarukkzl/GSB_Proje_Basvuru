@@ -138,3 +138,4 @@
 /Users/omerfarukkizil/development/GSB/api/bin/Debug/net8.0/Npgsql.dll
 /Users/omerfarukkizil/development/GSB/api/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/omerfarukkizil/development/GSB/api/obj/Debug/net8.0/api.sourcelink.json
+/Users/omerfarukkizil/development/GSB/api/bin/Debug/net8.0/api.staticwebassets.runtime.json

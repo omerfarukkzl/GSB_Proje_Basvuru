@@ -25,9 +25,9 @@ public class Basvuru : BaseClass
     public int? BasvuruDurumId { get; set; }
     public AltTip BasvuruDurumu { get; set; }
 
-    public DateTimeOffset? BasvuruTarihi { get; set; }
+    public DateTime? BasvuruTarihi { get; set; }
 
-    public DateTimeOffset? AciklanmaTarihi { get; set; }
+    public DateTime? AciklanmaTarihi { get; set; }
 
     public decimal? HibeTutari { get; set; }
 

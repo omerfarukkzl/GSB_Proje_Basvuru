@@ -8,7 +8,7 @@ public class BasvuruDto
     public int? KatilimciTurId { get; set; }
     public int? BasvuruDonemId { get; set; }
     public int? BasvuruDurumId { get; set; }
-    public DateTimeOffset? BasvuruTarihi { get; set; }
-    public DateTimeOffset? AciklanmaTarihi { get; set; }
+    public DateTime? BasvuruTarihi { get; set; }
+    public DateTime? AciklanmaTarihi { get; set; }
     public decimal? HibeTutari { get; set; }
 }

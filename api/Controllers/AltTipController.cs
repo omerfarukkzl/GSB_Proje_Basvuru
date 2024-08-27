@@ -19,6 +19,7 @@ public class AltTipController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AltTipDto>>> GetAltTipler()
     {
+    
         var altTipler = await _context.AltTipler
             .Select(altTip => new AltTipDto
             {

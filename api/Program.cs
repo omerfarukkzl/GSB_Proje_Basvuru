@@ -1,3 +1,4 @@
+using api.Classes;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
@@ -21,8 +22,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<LogExceptionFilter>();
 app.UseHttpsRedirection();
+
 
 app.MapControllers();
 
