@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsb_frontend/bloc_application/application_bloc.dart';
-import 'package:gsb_frontend/bloc_application/application_event.dart';
-import 'package:gsb_frontend/bloc_application/application_state.dart';
+import 'package:gsb_frontend/BasvuruIslemleri/bloc_application/application_bloc.dart';
+import 'package:gsb_frontend/BasvuruIslemleri/bloc_application/application_event.dart';
+import 'package:gsb_frontend/BasvuruIslemleri/bloc_application/application_state.dart';
 import 'package:intl/intl.dart';
 
 class ApplicationPage extends StatefulWidget {
@@ -52,7 +52,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Başvuru başarıyla gönderildi')),
             );
-            Navigator.pushReplacementNamed(context, '/application');
+            Navigator.pushReplacementNamed(context, '/applicationList');
             _formKey.currentState!.reset();
           } else if (state is ApplicationError) {
             print(state.message);

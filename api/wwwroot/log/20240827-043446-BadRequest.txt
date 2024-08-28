@@ -1,0 +1,17 @@
+############ BASLANGIC ############
+##### LOG_DATE: 27.08.2024 16:34:46
+##### REQUEST_METHOD: POST
+##### REQUEST_GET_DISPLAY_URL: http://localhost:5232/api/Auth/Login
+##### EXCEPTION_MESSAGE: Unable to resolve service for type 'IUserService' while attempting to activate 'AuthController'.
+##### EXCEPTION_SOURCE: Microsoft.Extensions.DependencyInjection.Abstractions
+##### EXCEPTION_STACK_TRACE:    at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at api.Classes.LogExceptionFilter.Invoke(HttpContext hcHttpContext) in /Users/omerfarukkizil/development/GSB/api/Classes/LogExceptionFilter.cs:line 27
+############ BITIS ############

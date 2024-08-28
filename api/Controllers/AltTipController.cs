@@ -25,7 +25,8 @@ public class AltTipController : ControllerBase
             {
                 Id = altTip.Id,
                 Ad = altTip.Ad,
-                TipId = altTip.TipId
+                TipId = altTip.TipId,
+                TipAd = altTip.Tip.Ad
             }).ToListAsync();
 
         return Ok(altTipler);

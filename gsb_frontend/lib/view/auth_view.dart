@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gsb_frontend/bloc_auth/auth_bloc.dart';
-import 'package:gsb_frontend/bloc_auth/auth_event.dart';
-import 'package:gsb_frontend/bloc_auth/auth_state.dart';
+import 'package:gsb_frontend/KullaniciIslemleri/bloc_auth/auth_bloc.dart';
+import 'package:gsb_frontend/KullaniciIslemleri/bloc_auth/auth_event.dart';
+import 'package:gsb_frontend/KullaniciIslemleri/bloc_auth/auth_state.dart';
 
 class AuthView extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
