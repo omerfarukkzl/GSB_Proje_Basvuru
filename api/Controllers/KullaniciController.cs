@@ -19,7 +19,18 @@ public class KullaniciController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Kullanici>>> GetKullanicilar()
     {
-        return await _context.Kullanicilar.ToListAsync();
+        var sorgu = from k in _context.Kullanicilar
+        join r in _context.Roller on k.RolId equals r.Id
+            select new KullaniciDto
+            {
+                KullaniciAdi = k.KullaniciAdi,
+                Sifre = k.Sifre,
+                RolAdi = r.RolAdi,
+                RolId = k.RolId
+
+
+            };
+        return Ok(sorgu);
     }
 
     // GET: api/Kullanici/5
@@ -43,7 +54,8 @@ public async Task<ActionResult<Kullanici>> PostKullanici(KullaniciDto kullaniciD
     var kullanici = new Kullanici
     {
         KullaniciAdi = kullaniciDto.KullaniciAdi,
-        Sifre = kullaniciDto.Sifre
+        Sifre = kullaniciDto.Sifre,
+        RolId = kullaniciDto.RolId,
     };
 
     _context.Kullanicilar.Add(kullanici);
@@ -67,4 +79,30 @@ public async Task<ActionResult<Kullanici>> PostKullanici(KullaniciDto kullaniciD
 
         return NoContent();
     }
+
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+    {
+        var kullanici = await _context.Kullanicilar
+            .Include(k => k.KullaniciRol)
+            .FirstOrDefaultAsync(k => k.KullaniciAdi == loginDto.KullaniciAdi && k.Sifre == loginDto.Sifre);
+
+        if (kullanici == null)
+        {
+            return Unauthorized();  // Kullanıcı adı veya şifre yanlışsa 401 Unauthorized döndür
+        }
+
+        // Giriş başarılı, kullanıcının bilgilerini dönelim
+        var result = new
+        {
+            KullaniciId = kullanici.Id,
+            KullaniciAdi = kullanici.KullaniciAdi,
+            RolAdi = kullanici.KullaniciRol.RolAdi
+        };
+
+        return Ok(result);  // 200 OK ve kullanıcı bilgilerini JSON olarak döndür
+    }
+
+
+
 }

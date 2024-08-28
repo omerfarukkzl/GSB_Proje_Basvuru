@@ -1,3 +1,4 @@
+using api.Entities;
 using api.Mappings;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,8 @@ public class AppDbContext : DbContext
     public DbSet<Basvuru> Basvurular { get; set; }
     public DbSet<Tip> Tipler { get; set; }
     public DbSet<AltTip> AltTipler { get; set; }
+
+    public DbSet<Roller> Roller { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
