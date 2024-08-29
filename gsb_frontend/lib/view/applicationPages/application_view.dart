@@ -203,7 +203,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
               if (pickedDate != null) {
                 setState(() {
                   _basvuruTarihiController.text =
-                      pickedDate.toUtc().toIso8601String();
+                      pickedDate.toLocal().toIso8601String();
                 });
               }
             },
@@ -228,7 +228,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
               if (pickedDate != null) {
                 setState(() {
                   _aciklanmaTarihiController.text =
-                      pickedDate.toUtc().toIso8601String();
+                      pickedDate.toLocal().toIso8601String();
                   print(_aciklanmaTarihiController.text);
                 });
               }

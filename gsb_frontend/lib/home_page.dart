@@ -158,14 +158,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text('Hoşgeldin $username!'),
             Text('$role rolü ile giriş yaptınız.'),
-            SizedBox(height: 20),
-            if (role == 'admin')
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/userEkle');
-                },
-                child: Text('Kullanıcı Ekle'),
-              ),
           ],
         ),
       ),

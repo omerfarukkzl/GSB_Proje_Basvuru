@@ -17,6 +17,8 @@ public class BasvuruDto
     public DateTime? BasvuruTarihi { get; set; }
     public DateTime? AciklanmaTarihi { get; set; }
     public decimal? HibeTutari { get; set; }
+
+    public bool SilinmeDurumu { get; set; }
     
     
     

@@ -47,20 +47,20 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RolId = table.Column<int>(type: "int", nullable: false, defaultValue: 2),
+                    RolId = table.Column<int>(type: "int", nullable: true, defaultValue: 2),
                     KullaniciAdi = table.Column<string>(type: "varchar(50)", nullable: false),
                     Sifre = table.Column<string>(type: "varchar(50)", nullable: false),
-                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    AktiflikDurumu = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Kullanici", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Roller_RolId",
+                        name: "FK_Kullanici_RolId",
                         column: x => x.RolId,
                         principalTable: "Roller",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -97,10 +97,10 @@ namespace api.Migrations
                     KatilimciTurId = table.Column<int>(type: "int", nullable: true),
                     BasvuruDonemId = table.Column<int>(type: "int", nullable: true),
                     BasvuruDurumId = table.Column<int>(type: "int", nullable: true),
-                    BasvuruTarihi = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
-                    AciklanmaTarihi = table.Column<DateTimeOffset>(type: "timestamptz", nullable: true),
+                    BasvuruTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    AciklanmaTarihi = table.Column<DateTime>(type: "timestamp", nullable: true),
                     HibeTutari = table.Column<decimal>(type: "decimal", nullable: true),
-                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: true)
+                    SilinmeDurumu = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -193,11 +193,11 @@ namespace api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Kullanici",
-                columns: new[] { "Id", "KullaniciAdi", "RolId", "Sifre", "SilinmeDurumu" },
+                columns: new[] { "Id", "AktiflikDurumu", "KullaniciAdi", "RolId", "Sifre" },
                 values: new object[,]
                 {
-                    { 1, "admin", 1, "admin", null },
-                    { 2, "user", 2, "user", null }
+                    { 1, true, "admin", 1, "admin" },
+                    { 2, true, "user", 2, "user" }
                 });
 
             migrationBuilder.CreateIndex(

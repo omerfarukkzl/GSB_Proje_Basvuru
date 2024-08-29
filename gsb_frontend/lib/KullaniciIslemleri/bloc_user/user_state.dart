@@ -22,6 +22,8 @@ class UserListLoaded extends UserState {
   List<Object> get props => [users];
 }
 
+class UserStatusUpdated extends UserState {}
+
 class UserError extends UserState {
   final String message;
 

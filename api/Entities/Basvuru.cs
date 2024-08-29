@@ -31,5 +31,7 @@ public class Basvuru : BaseClass
 
     public decimal? HibeTutari { get; set; }
 
+    public bool SilinmeDurumu { get; set; }
+
 
 }

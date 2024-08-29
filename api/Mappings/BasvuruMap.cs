@@ -22,10 +22,10 @@ namespace api.Mappings
             builder.Property(a => a.BasvuruDonemId).HasColumnType("int");
             builder.Property(a => a.BasvuruDurumId).HasColumnType("int");
 
-            builder.Property(a => a.BasvuruTarihi).HasColumnType("timestamptz");
-            builder.Property(a => a.AciklanmaTarihi).HasColumnType("timestamptz");
+            builder.Property(a => a.BasvuruTarihi).HasColumnType("timestamp");
+            builder.Property(a => a.AciklanmaTarihi).HasColumnType("timestamp");
             builder.Property(a => a.HibeTutari).HasColumnType("decimal");
-            builder.Property(a => a.SilinmeDurumu);
+            builder.Property(a => a.SilinmeDurumu).HasColumnType("boolean").HasDefaultValue(false);
 
 
             //builder.HasOne(a => a.BasvuruDurumu).WithMany(t => t.ListBasvurularDurum).HasForeignKey(a => a.BasvuruDurumId);

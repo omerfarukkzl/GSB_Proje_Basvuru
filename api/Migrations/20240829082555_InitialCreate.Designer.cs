@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240826114806_InitialCreate")]
+    [Migration("20240829082555_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -178,8 +178,8 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("AciklanmaTarihi")
-                        .HasColumnType("timestamptz");
+                    b.Property<DateTime?>("AciklanmaTarihi")
+                        .HasColumnType("timestamp");
 
                     b.Property<int?>("BasvuranBirimId")
                         .HasColumnType("int");
@@ -190,8 +190,8 @@ namespace api.Migrations
                     b.Property<int?>("BasvuruDurumId")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset?>("BasvuruTarihi")
-                        .HasColumnType("timestamptz");
+                    b.Property<DateTime?>("BasvuruTarihi")
+                        .HasColumnType("timestamp");
 
                     b.Property<int?>("BasvuruYapilanProjeId")
                         .HasColumnType("int");
@@ -211,8 +211,10 @@ namespace api.Migrations
                     b.Property<string>("ProjeAdi")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<bool?>("SilinmeDurumu")
-                        .HasColumnType("boolean");
+                    b.Property<bool>("SilinmeDurumu")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 
@@ -241,11 +243,16 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("AktiflikDurumu")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("KullaniciAdi")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("RolId")
+                    b.Property<int?>("RolId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(2);
@@ -254,8 +261,10 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<bool?>("SilinmeDurumu")
-                        .HasColumnType("boolean");
+                    b.Property<bool>("SilinmeDurumu")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 
@@ -267,16 +276,20 @@ namespace api.Migrations
                         new
                         {
                             Id = 1,
+                            AktiflikDurumu = true,
                             KullaniciAdi = "admin",
                             RolId = 1,
-                            Sifre = "admin"
+                            Sifre = "admin",
+                            SilinmeDurumu = false
                         },
                         new
                         {
                             Id = 2,
+                            AktiflikDurumu = true,
                             KullaniciAdi = "user",
                             RolId = 2,
-                            Sifre = "user"
+                            Sifre = "user",
+                            SilinmeDurumu = false
                         });
                 });
 
@@ -426,9 +439,7 @@ namespace api.Migrations
                     b.HasOne("api.Entities.Roller", "KullaniciRol")
                         .WithMany("ListRoller")
                         .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Roller_RolId");
+                        .HasConstraintName("FK_Kullanici_RolId");
 
                     b.Navigation("KullaniciRol");
                 });

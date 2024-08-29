@@ -18,9 +18,11 @@ namespace api.Mappings
             builder.Property(a => a.KullaniciAdi).HasColumnType("varchar(50)");
             builder.Property(a => a.Sifre).HasColumnType("varchar(50)");
             builder.Property(a => a.RolId).HasColumnType("int").HasDefaultValue(2);
-            builder.Property(a => a.SilinmeDurumu);
+            builder.Property(a => a.SilinmeDurumu).HasColumnType("boolean").HasDefaultValue(false);
+            builder.Property(a => a.AktiflikDurumu).HasColumnType("boolean").HasDefaultValue(false);
 
-            builder.HasOne<Roller>(a => a.KullaniciRol).WithMany(a => a.ListRoller).HasForeignKey(a => a.RolId).HasConstraintName("FK_Kullanici_RolId");
+            builder.HasOne<Roller>(a => a.KullaniciRol)
+            .WithMany(a => a.ListRoller).HasForeignKey(a => a.RolId).HasConstraintName("FK_Kullanici_RolId");
 
 
 
@@ -28,8 +30,8 @@ namespace api.Mappings
             builder.ToTable(nameof(Kullanici));
 
             builder.HasData(
-                new Kullanici { Id=1, KullaniciAdi = "admin", Sifre = "admin", RolId = 1 },
-                new Kullanici { Id=2, KullaniciAdi = "user", Sifre = "user", RolId = 2 }
+                new Kullanici { Id=1, KullaniciAdi = "admin", Sifre = "admin", RolId = 1, AktiflikDurumu = true, SilinmeDurumu = false },
+                new Kullanici { Id=2, KullaniciAdi = "user", Sifre = "user", RolId = 2, AktiflikDurumu = true, SilinmeDurumu = false }
                 );
 
             

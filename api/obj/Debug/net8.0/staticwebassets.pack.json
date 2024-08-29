@@ -1,60 +1,8 @@
 {
   "Files": [
     {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-032727-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240827-032727-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-033635-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240827-033635-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-043027-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240827-043027-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-043038-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240827-043038-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-043446-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240827-043446-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-043512-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240827-043512-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240827-050017-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240827-050017-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-024245-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240828-024245-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-025234-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240828-025234-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-094256-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240828-094256-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-094425-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240828-094425-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-094426-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240828-094426-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-094429-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240828-094429-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240828-094511-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240828-094511-BadRequest.txt"
+      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240829-031648-InternalServerError.txt",
+      "PackagePath": "staticwebassets/log/20240829-031648-InternalServerError.txt"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.api.Microsoft.AspNetCore.StaticWebAssets.props",
