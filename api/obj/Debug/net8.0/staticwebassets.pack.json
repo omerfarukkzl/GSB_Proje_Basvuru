@@ -1,32 +1,12 @@
 {
   "Files": [
     {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240829-031648-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240829-031648-InternalServerError.txt"
+      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-045812-BadRequest.txt",
+      "PackagePath": "staticwebassets/log/20240902-045812-BadRequest.txt"
     },
     {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-013258-InternalServerError.txt",
-      "PackagePath": "staticwebassets/log/20240902-013258-InternalServerError.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-020123-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240902-020123-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-020400-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240902-020400-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-020422-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240902-020422-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-020727-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240902-020727-BadRequest.txt"
-    },
-    {
-      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-020753-BadRequest.txt",
-      "PackagePath": "staticwebassets/log/20240902-020753-BadRequest.txt"
+      "Id": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-045839-BadRequest.txt",
+      "PackagePath": "staticwebassets/log/20240902-045839-BadRequest.txt"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.api.Microsoft.AspNetCore.StaticWebAssets.props",

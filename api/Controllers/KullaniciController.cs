@@ -54,13 +54,13 @@ public class KullaniciController : ControllerBase
 
     // POST: api/Kullanici
     [HttpPost]
-public async Task<ActionResult<Kullanici>> PostKullanici(KullaniciDto kullaniciDto)
+public async Task<ActionResult<Kullanici>> PostKullanici(KullaniciEkleDto kullaniciEkleDto)
 {
     var kullanici = new Kullanici
     {
-        KullaniciAdi = kullaniciDto.KullaniciAdi,
-        Sifre = kullaniciDto.Sifre,
-        RolId = kullaniciDto.RolId,
+        KullaniciAdi = kullaniciEkleDto.KullaniciAdi,
+        Sifre = kullaniciEkleDto.Sifre,
+        RolId = kullaniciEkleDto.RolId,
         AktiflikDurumu = true,
         SilinmeDurumu = false
     };

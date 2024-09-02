@@ -44,6 +44,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           'KullaniciAdi': event.username,
           'Sifre': event.password,
           'RolId': event.roleId,
+          'AktiflikDurumu': event.aktiflikDurumu,
+          'SilinmeDurumu': event.silinmeDurumu,
         }),
       );
 

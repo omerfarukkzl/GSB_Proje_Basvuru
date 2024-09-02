@@ -15,6 +15,11 @@ class _UserEklePageState extends State<UserEklePage> {
   final TextEditingController _passwordController = TextEditingController();
   int? _selectedRole;
 
+  Future<Object> _pushUserListelePage(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return Navigator.pushNamed(context, '/userListele');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,8 @@ class _UserEklePageState extends State<UserEklePage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Kullanıcı başarıyla eklendi.')),
             );
-            Navigator.pushNamed(context, '/userListele');
+            _pushUserListelePage(context);
+
             _formKey.currentState!.reset();
           } else if (state is UserError) {
             ScaffoldMessenger.of(context).showSnackBar(

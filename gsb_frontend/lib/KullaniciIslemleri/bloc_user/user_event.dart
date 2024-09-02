@@ -11,8 +11,11 @@ class AddUser extends UserEvent {
   final String username;
   final String password;
   final int roleId;
+  final bool aktiflikDurumu;
+  final bool silinmeDurumu;
 
-  AddUser(this.username, this.password, this.roleId);
+  AddUser(this.username, this.password, this.roleId,
+      {this.aktiflikDurumu = true, this.silinmeDurumu = false});
 
   @override
   List<Object> get props => [username, password, roleId];

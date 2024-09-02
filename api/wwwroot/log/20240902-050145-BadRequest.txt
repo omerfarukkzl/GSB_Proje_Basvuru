@@ -1,22 +1,14 @@
 ############ BASLANGIC ############
-##### LOG_DATE: 2.09.2024 13:32:58
+##### LOG_DATE: 2.09.2024 17:01:45
 ##### REQUEST_METHOD: POST
-##### REQUEST_GET_DISPLAY_URL: http://localhost:5232/api/Kullanici/Register
-##### EXCEPTION_MESSAGE: An error occurred while saving the entity changes. See the inner exception for details.
-##### INNER_EXCEPTION_MESSAGE: 23503: insert or update on table "Kullanici" violates foreign key constraint "FK_Kullanici_RolId"
-
-DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
-##### EXCEPTION_SOURCE: Microsoft.EntityFrameworkCore.Relational
-##### EXCEPTION_STACK_TRACE:    at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
-   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
-   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+##### REQUEST_GET_DISPLAY_URL: http://localhost:5232/api/Kullanici
+##### EXCEPTION_MESSAGE: An exception has been raised that is likely due to a transient failure.
+##### INNER_EXCEPTION_MESSAGE: Failed to connect to 127.0.0.1:5432
+##### EXCEPTION_SOURCE: Npgsql.EntityFrameworkCore.PostgreSQL
+##### EXCEPTION_STACK_TRACE:    at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
    at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
    at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
-   at KullaniciController.Register(KullaniciDto kullaniciDto) in /Users/omerfarukkizil/development/GSB/api/Controllers/KullaniciController.cs:line 103
+   at KullaniciController.PostKullanici(KullaniciEkleDto kullaniciEkleDto) in /Users/omerfarukkizil/development/GSB/api/Controllers/KullaniciController.cs:line 69
    at lambda_method5(Closure, Object)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
