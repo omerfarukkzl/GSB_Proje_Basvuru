@@ -5,6 +5,6 @@ public class KullaniciDto
     public string Sifre { get; set; }
     public string RolAdi { get; set; }
     public int? RolId { get; set; }
-    public bool AktiflikDurumu { get; internal set; }
-    public bool SilinmeDurumu { get; internal set; }
+    public bool AktiflikDurumu { get; set; }
+    public bool SilinmeDurumu { get; set; }
 }

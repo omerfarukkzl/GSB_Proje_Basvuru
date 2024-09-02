@@ -9,6 +9,7 @@ import 'package:gsb_frontend/view/altTipPages/alt_tip_ekle_view.dart';
 import 'package:gsb_frontend/view/altTipPages/alt_tip_liste_view.dart';
 import 'package:gsb_frontend/view/applicationPages/application_list_view.dart';
 import 'package:gsb_frontend/view/applicationPages/application_view.dart';
+import 'package:gsb_frontend/view/loginPages/register_page.dart';
 import 'package:gsb_frontend/view/userPages/userEkle_view.dart';
 import 'package:gsb_frontend/view/userPages/userListele_view.dart';
 
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => LoginPage(),
+          '/register': (context) => RegisterPage(),
           '/home': (context) => HomePage(),
           '/application': (context) => ApplicationPage(),
           '/applicationList': (context) => const ApplicationListPage(),

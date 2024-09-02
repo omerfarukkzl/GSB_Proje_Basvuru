@@ -71,6 +71,38 @@ public async Task<ActionResult<Kullanici>> PostKullanici(KullaniciDto kullaniciD
     return CreatedAtAction(nameof(GetKullanici), new { id = kullanici.Id }, kullanici);
 }
 
+   [HttpPost("Register")]
+public async Task<ActionResult<Kullanici>> Register([FromBody] RegisterDTO registerDto)
+{
+    Responses sonuc = new Responses();
+    sonuc.message = "Bu kullanıcı adı zaten kullanılıyor.";
+    if (registerDto == null || string.IsNullOrEmpty(registerDto.KullaniciAdi) || string.IsNullOrEmpty(registerDto.Sifre))
+    {
+        return BadRequest("Kullanıcı adı ve şifre gereklidir.");
+    }
+
+    var existingUser = await _context.Kullanicilar
+        .FirstOrDefaultAsync(u => u.KullaniciAdi == registerDto.KullaniciAdi);
+    if (existingUser != null)
+    {
+        return  BadRequest(sonuc);
+    }
+
+    var kullanici = new Kullanici
+    {
+        KullaniciAdi = registerDto.KullaniciAdi,
+        Sifre = registerDto.Sifre,
+        RolId = registerDto.RolId,  
+        AktiflikDurumu = false,    
+        SilinmeDurumu = false     
+    };
+
+    _context.Kullanicilar.Add(kullanici);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(Register), new { id = kullanici.Id }, kullanici);
+}
+
     // DELETE: api/Kullanici/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteKullanici(int id)
@@ -109,57 +141,41 @@ public async Task<IActionResult> UpdateUserStatus(int id, [FromBody] UpdateUserS
     }
     return Ok(sonuc);
 
-
-
-   /* if (kullanici == null)
-    {
-        return NotFound();
-    }
-
-    kullanici.SilinmeDurumu = updateUserStatusDto.SilinmeDurumu;
-    kullanici.AktiflikDurumu = updateUserStatusDto.AktiflikDurumu;
-
-    try
-    {
-        await _context.SaveChangesAsync();
-    }
-    catch (DbUpdateConcurrencyException)
-    {
-        if (!_context.Kullanicilar.Any(e => e.Id == id))
-        {
-            return NotFound();
-        }
-        else
-        {
-            throw;
-        }
-    }
-*/
     return Ok();
 }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+{
+    var kullanici = await _context.Kullanicilar
+        .Include(k => k.KullaniciRol)
+        .FirstOrDefaultAsync(k => k.KullaniciAdi == loginDto.KullaniciAdi && k.Sifre == loginDto.Sifre);
+
+    if (kullanici == null)
     {
-        var kullanici = await _context.Kullanicilar
-            .Include(k => k.KullaniciRol)
-            .FirstOrDefaultAsync(k => k.KullaniciAdi == loginDto.KullaniciAdi && k.Sifre == loginDto.Sifre && k.AktiflikDurumu && !k.SilinmeDurumu );
-
-        if (kullanici == null)
-        {
-            return Unauthorized();  // k.adı veya şifre yanlıssa
-        }
-
-        // Giriş başarılı, kullanıcının bilgilerini dönelim
-        var result = new
-        {
-            KullaniciId = kullanici.Id,
-            KullaniciAdi = kullanici.KullaniciAdi,
-            RolAdi = kullanici.KullaniciRol.RolAdi
-        };
-
-        return Ok(result); 
+        return Unauthorized();  // Kullanıcı adı veya şifre yanlışsa
     }
+
+    if (!kullanici.AktiflikDurumu)
+    {
+        return Forbid("Kullanıcı hesabı aktif değil.");  // Kullanıcı aktif değilse
+    }
+
+    if (kullanici.SilinmeDurumu)
+    {
+        return NotFound("Kullanıcı bulunamadı.");  // Kullanıcı silinmişse
+    }
+
+    // Giriş başarılı, kullanıcının bilgilerini döndürelim
+    var result = new
+    {
+        KullaniciId = kullanici.Id,
+        KullaniciAdi = kullanici.KullaniciAdi,
+        RolAdi = kullanici.KullaniciRol.RolAdi
+    };
+
+    return Ok(result); 
+}
 
 
 
