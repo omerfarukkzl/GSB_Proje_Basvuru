@@ -27,56 +27,106 @@ class RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Kayıt Ol')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Kullanıcı Adı'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Kullanıcı adı boş olamaz';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Şifre'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Şifre boş olamaz';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _register,
-                child: Text('Kayıt Ol'),
-              ),
-              BlocListener<UserBloc, UserState>(
-                listener: (context, state) {
-                  if (state is UserCreated) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Kayıt başarılı!')),
-                    );
-                    Navigator.pushNamed(context, '/login');
-                  } else if (state is UserError) {
-                    print(state.message);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.message)),
-                    );
-                  }
-                },
-                child: Container(),
-              ),
-            ],
+      appBar: AppBar(
+        title: Text('Kayıt Ol'),
+        centerTitle: true, // Başlığı ortala
+      ),
+      body: SingleChildScrollView(
+        // Scroll ekle, küçük ekranlarda taşmalar olmasın
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment:
+                  CrossAxisAlignment.stretch, // Elemanları genişlet
+              children: [
+                // Üstte bir simge ve hoşgeldiniz mesajı ekleyin
+                Center(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.person_add,
+                        size: 100,
+                        color: Colors.greenAccent,
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Yeni Hesap Oluşturun!',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 40),
+                // Kullanıcı adı ve şifre giriş alanları
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Kullanıcı Adı',
+                    prefixIcon: Icon(Icons.person),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Kullanıcı adı boş olamaz';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Şifre',
+                    prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Şifre boş olamaz';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 30),
+                // Kayıt ol butonu
+                ElevatedButton(
+                  onPressed: _register,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'Kayıt Ol',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                SizedBox(height: 10),
+                BlocListener<UserBloc, UserState>(
+                  listener: (context, state) {
+                    if (state is UserCreated) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Kayıt başarılı!')),
+                      );
+                      Navigator.pushNamed(context, '/');
+                    } else if (state is UserError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                    }
+                  },
+                  child: Container(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

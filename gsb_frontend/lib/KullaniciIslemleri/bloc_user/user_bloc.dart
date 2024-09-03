@@ -131,11 +131,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (response.statusCode == 201) {
         emit(UserCreated());
         add(FetchUsers());
+        return; // İşlem başarılı olduğunda geriye dön ve işlevi sonlandır
       } else if (response.statusCode == 400) {
         final responseData = json.decode(response.body);
         emit(UserError(responseData['message']));
+        return; // Hata mesajını yaydıktan sonra işlevi sonlandır
+      } else {
+        emit(UserError('Kullanıcı eklerken bilinmeyen bir hata oluştu.'));
+        return; // Bilinmeyen bir hata olduğunda işlevi sonlandır
       }
-      emit(UserError('Kullanıcı eklerken hata oluştu.'));
     } catch (e) {
       emit(UserError('Bağlantı hatası: $e'));
     }
