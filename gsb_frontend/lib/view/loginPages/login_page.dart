@@ -30,7 +30,7 @@ class LoginPageState extends State<LoginPage> {
                 CrossAxisAlignment.stretch, // Elemanları genişlet
             children: [
               // Giriş sayfasına bir logo veya başlık ekleyin
-              Center(
+              const Center(
                 child: Column(
                   children: [
                     Icon(
@@ -49,11 +49,11 @@ class LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               // Kullanıcı adı ve şifre giriş alanları
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Kullanıcı Adı',
                   prefixIcon: Icon(Icons.person),
                   border: OutlineInputBorder(), // Çerçeve ekle
@@ -62,7 +62,7 @@ class LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Şifre',
                   prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
