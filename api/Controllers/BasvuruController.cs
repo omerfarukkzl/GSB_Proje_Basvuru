@@ -1,3 +1,4 @@
+using api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -17,9 +18,41 @@ public class BasvuruController : ControllerBase
 
     // GET: api/Basvuru
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BasvuruDto>>> GetBasvurular()
+    public async Task<ActionResult<IEnumerable<BasvuruDto>>> GetBasvurular([FromQuery] BasvuruFiltreDTO filtre)
     {
-        var basvurular = await _context.Basvurular
+        var query = _context.Basvurular.AsQueryable();
+
+        if (filtre != null)
+        {
+            if (!string.IsNullOrEmpty(filtre.ProjeAdi))
+                query = query.Where(b => b.ProjeAdi.Contains(filtre.ProjeAdi));
+
+            if (filtre.BasvuranBirimId.HasValue)
+                query = query.Where(b => b.BasvuranBirimId == filtre.BasvuranBirimId);
+
+            if (filtre.BasvuruYapilanProjeId.HasValue)
+                query = query.Where(b => b.BasvuruYapilanProjeId == filtre.BasvuruYapilanProjeId);
+
+            if (filtre.BasvuruYapilanTurId.HasValue)
+                query = query.Where(b => b.BasvuruYapilanTurId == filtre.BasvuruYapilanTurId);
+
+            if (filtre.KatilimciTurId.HasValue)
+                query = query.Where(b => b.KatilimciTurId == filtre.KatilimciTurId);
+
+            if (filtre.BasvuruDonemId.HasValue)
+                query = query.Where(b => b.BasvuruDonemId == filtre.BasvuruDonemId);
+
+            if (filtre.BasvuruDurumId.HasValue)
+                query = query.Where(b => b.BasvuruDurumId == filtre.BasvuruDurumId);
+
+            if (filtre.BasvuruTarihiBaslangic.HasValue)
+                query = query.Where(b => b.BasvuruTarihi >= filtre.BasvuruTarihiBaslangic);
+
+            if (filtre.BasvuruTarihiBitis.HasValue)
+                query = query.Where(b => b.BasvuruTarihi <= filtre.BasvuruTarihiBitis);
+        }
+
+        var basvurular = await query
             .Select(basvuru => new BasvuruDto
             {
                 Id = basvuru.Id,

@@ -8,3 +8,12 @@ abstract class ApplicationListEvent extends Equatable {
 }
 
 class LoadApplications extends ApplicationListEvent {}
+
+class LoadFilteredApplications extends ApplicationListEvent {
+  final Map<String, String> filterData;
+
+  LoadFilteredApplications(this.filterData);
+
+  @override
+  List<Object> get props => [filterData];
+}
