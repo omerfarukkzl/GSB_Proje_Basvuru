@@ -42,7 +42,7 @@ class _ApplicationListPageState extends State<ApplicationListPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.filter_list),
-            onPressed: () => _showFilterDialog(context),
+            onPressed: () => _openFilterDialog(context),
           ),
         ],
       ),
@@ -52,99 +52,150 @@ class _ApplicationListPageState extends State<ApplicationListPage> {
         },
         child: Icon(Icons.add),
       ),
-      body: SingleChildScrollView(
-        child: BlocProvider(
-          create: (_) => ApplicationListBloc()..add(LoadApplications()),
-          child: BlocBuilder<ApplicationListBloc, ApplicationListState>(
-            builder: (context, state) {
-              if (state is ApplicationListLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is ApplicationListLoaded) {
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('Proje Adı')),
-                      DataColumn(label: Text('Başvuran Birim')),
-                      DataColumn(label: Text('Başvuru Yapılan Proje')),
-                      DataColumn(label: Text('Başvuru Yapılan Tür')),
-                      DataColumn(label: Text('Katılımcı Türü')),
-                      DataColumn(label: Text('Başvuru Dönemi')),
-                      DataColumn(label: Text('Başvuru Tarihi')),
-                      DataColumn(label: Text('Durum')),
-                    ],
-                    rows: state.applications.map<DataRow>((application) {
-                      return DataRow(
-                        cells: [
-                          DataCell(
-                              Text(application['projeAdi'] ?? 'Proje Adı Yok')),
-                          DataCell(Text(application['basvuranBirimAdi'] ??
-                              'Birim Adı Yok')),
-                          DataCell(Text(application['basvuruYapilanProjeAdi'] ??
-                              'Proje Adı Yok')),
-                          DataCell(Text(application['basvuruYapilanTurAdi'] ??
-                              'Tür Adı Yok')),
-                          DataCell(Text(application['katilimciTurAdi'] ??
-                              'Katılımcı Türü Yok')),
-                          DataCell(Text(application['basvuruDonemAdi'] ??
-                              'Dönem Adı Yok')),
-                          DataCell(Text(
-                              application['basvuruTarihi']?.split('T').first ??
-                                  'Tarih Yok')),
-                          DataCell(Text(application['basvuruDurumAdi'] ??
-                              'Durum Adı Yok')),
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                );
-              } else if (state is ApplicationListError) {
-                return Center(child: Text(state.message));
-              } else {
-                return Center(child: Text('Başvurular yüklenemedi.'));
-              }
-            },
-          ),
-        ),
+      body: BlocBuilder<ApplicationListBloc, ApplicationListState>(
+        builder: (context, state) {
+          if (state is ApplicationListLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is ApplicationListLoaded) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<ApplicationListBloc>().add(LoadApplications());
+              },
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text('Proje Adı')),
+                    DataColumn(label: Text('Başvuran Birim')),
+                    DataColumn(label: Text('Başvuru Yapılan Proje')),
+                    DataColumn(label: Text('Başvuru Yapılan Tür')),
+                    DataColumn(label: Text('Katılımcı Türü')),
+                    DataColumn(label: Text('Başvuru Dönemi')),
+                    DataColumn(label: Text('Başvuru Tarihi')),
+                    DataColumn(label: Text('Durum')),
+                  ],
+                  rows: state.applications.map<DataRow>((application) {
+                    return DataRow(
+                      cells: [
+                        DataCell(
+                            Text(application['projeAdi'] ?? 'Proje Adı Yok')),
+                        DataCell(Text(application['basvuranBirimAdi'] ??
+                            'Birim Adı Yok')),
+                        DataCell(Text(application['basvuruYapilanProjeAdi'] ??
+                            'Proje Adı Yok')),
+                        DataCell(Text(application['basvuruYapilanTurAdi'] ??
+                            'Tür Adı Yok')),
+                        DataCell(Text(application['katilimciTurAdi'] ??
+                            'Katılımcı Türü Yok')),
+                        DataCell(Text(
+                            application['basvuruDonemAdi'] ?? 'Dönem Adı Yok')),
+                        DataCell(Text(
+                            application['basvuruTarihi']?.split('T').first ??
+                                'Tarih Yok')),
+                        DataCell(Text(
+                            application['basvuruDurumAdi'] ?? 'Durum Adı Yok')),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            );
+          } else if (state is ApplicationListError) {
+            return Center(child: Text(state.message));
+          } else {
+            return Center(child: Text('Başvurular yüklenemedi.'));
+          }
+        },
       ),
     );
   }
 
-  void _showFilterDialog(BuildContext context) {
+  void _openFilterDialog(BuildContext context) {
+    context.read<ApplicationListBloc>().add(LoadFilterList());
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: AlertDialog(
-            title: Text('Filtrele'),
-            content: BlocProvider(
-              create: (_) => ApplicationListBloc()..add(LoadFilterList()),
-              child: BlocBuilder<ApplicationListBloc, ApplicationListState>(
-                builder: (context, state) {
-                  if (state is FilterListLoaded) {
-                    return buildForm(state, context);
-                  } else if (state is ApplicationListLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return Center(child: Text('Filtreler yüklenemedi.'));
-                  }
-                },
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('Kapat'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Filtreleme işlemi burada yapılabilir
-                  Navigator.of(context).pop();
-                },
-                child: Text('Uygula'),
-              ),
-            ],
-          ),
+        return BlocBuilder<ApplicationListBloc, ApplicationListState>(
+          builder: (context, state) {
+            if (state is FilterListLoaded) {
+              return SingleChildScrollView(
+                child: AlertDialog(
+                  title: Text('Filtrele'),
+                  content: buildForm(state, context),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        // Filtreleri temizle
+                        _projeAdiController.clear();
+                        _hibeTutariController.clear();
+                        _basvuruTarihiController.clear();
+                        _aciklanmaTarihiController.clear();
+                        setState(() {
+                          selectedBasvuranBirim = null;
+                          selectedBasvuruYapilanProje = null;
+                          selectedBasvuruYapilanTur = null;
+                          selectedKatilimciTur = null;
+                          selectedBasvuruDonem = null;
+                          selectedBasvuruDurum = null;
+                        });
+                        context
+                            .read<ApplicationListBloc>()
+                            .add(LoadApplications());
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Temizle'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        final queryParameters = {
+                          'projeAdi': _projeAdiController.text,
+                          'basvuranBirimId': selectedBasvuranBirim,
+                          'basvuruYapilanProjeId': selectedBasvuruYapilanProje,
+                          'basvuruYapilanTurId': selectedBasvuruYapilanTur,
+                          'katilimciTurId': selectedKatilimciTur,
+                          'basvuruDonemId': selectedBasvuruDonem,
+                          'basvuruDurumId': selectedBasvuruDurum,
+                          'basvuruTarihi': _basvuruTarihiController.text,
+                          'aciklanmaTarihi': _aciklanmaTarihiController.text,
+                        };
+
+                        final filteredQueryParameters = Map.fromEntries(
+                            queryParameters.entries.where(
+                                (entry) => entry.value?.isNotEmpty == true));
+
+                        print(
+                            'Filtered Query Parameters: $filteredQueryParameters');
+                        context
+                            .read<ApplicationListBloc>()
+                            .add(LoadApplications(filteredQueryParameters));
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Uygula'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (state is ApplicationListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return AlertDialog(
+                title: Text('Filtreler Yüklenemedi'),
+                content: Text('Lütfen daha sonra tekrar deneyin.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      context
+                          .read<ApplicationListBloc>()
+                          .add(LoadApplications());
+                    },
+                    child: Text('Kapat'),
+                  ),
+                ],
+              );
+            }
+          },
         );
       },
     );
@@ -152,89 +203,86 @@ class _ApplicationListPageState extends State<ApplicationListPage> {
 
   Form buildForm(FilterListLoaded state, BuildContext context) {
     return Form(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          buildTextFormField(
-            controller: _projeAdiController,
-            labelText: 'Proje Adı',
-            icon: Icons.work,
-            validator: (value) =>
-                value == null || value.isEmpty ? 'Proje Adı gerekli' : null,
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedBasvuranBirim,
-            labelText: 'Başvuran Birimi',
-            items: state.dropdownData['basvuranBirimler'],
-            onChanged: (value) => setState(() => selectedBasvuranBirim = value),
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedBasvuruYapilanProje,
-            labelText: 'Başvuru Yapılan Proje',
-            items: state.dropdownData['basvuruYapilanProje'],
-            onChanged: (value) =>
-                setState(() => selectedBasvuruYapilanProje = value),
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedBasvuruYapilanTur,
-            labelText: 'Başvuru Yapılan Tür',
-            items: state.dropdownData['basvuruYapilanTur'],
-            onChanged: (value) =>
-                setState(() => selectedBasvuruYapilanTur = value),
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedKatilimciTur,
-            labelText: 'Katılımcı Türü',
-            items: state.dropdownData['katilimciTurleri'],
-            onChanged: (value) => setState(() => selectedKatilimciTur = value),
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedBasvuruDonem,
-            labelText: 'Başvuru Dönemi',
-            items: state.dropdownData['basvuruDonemleri'],
-            onChanged: (value) => setState(() => selectedBasvuruDonem = value),
-          ),
-          SizedBox(height: 20),
-          buildDropdownFormField(
-            value: selectedBasvuruDurum,
-            labelText: 'Başvuru Durumu',
-            items: state.dropdownData['basvuruDurumlari'],
-            onChanged: (value) => setState(() => selectedBasvuruDurum = value),
-          ),
-          SizedBox(height: 20),
-          buildDateFormField(
-            controller: _basvuruTarihiController,
-            labelText: 'Başvuru Tarihi',
-            onTap: () => datePickerFunction(context: context),
-            validator: (value) => value == null || value.isEmpty
-                ? 'Başvuru Tarihi gerekli'
-                : null,
-          ),
-          SizedBox(height: 20),
-          buildDateFormField(
-            controller: _aciklanmaTarihiController,
-            labelText: 'Açıklanma Tarihi',
-            onTap: () => datePickerFunction(context: context),
-            validator: (value) => value == null || value.isEmpty
-                ? 'Açıklanma Tarihi gerekli'
-                : null,
-          ),
-          SizedBox(height: 20),
-          buildTextFormField(
-            controller: _hibeTutariController,
-            labelText: 'Hibe Tutarı',
-            icon: Icons.attach_money,
-            keyboardType: TextInputType.number,
-            validator: (value) =>
-                value == null || value.isEmpty ? 'Hibe Tutarı gerekli' : null,
-          ),
-          SizedBox(height: 30),
-        ],
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            buildTextFormField(
+              controller: _projeAdiController,
+              labelText: 'Proje Adı',
+              icon: Icons.work,
+              validator: (value) =>
+                  value == null || value.isEmpty ? 'Proje Adı gerekli' : null,
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedBasvuranBirim,
+              labelText: 'Başvuran Birimi',
+              items: state.dropdownData['basvuranBirimler'],
+              onChanged: (value) =>
+                  setState(() => selectedBasvuranBirim = value),
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedBasvuruYapilanProje,
+              labelText: 'Başvuru Yapılan Proje',
+              items: state.dropdownData['basvuruYapilanProje'],
+              onChanged: (value) =>
+                  setState(() => selectedBasvuruYapilanProje = value),
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedBasvuruYapilanTur,
+              labelText: 'Başvuru Yapılan Tür',
+              items: state.dropdownData['basvuruYapilanTur'],
+              onChanged: (value) =>
+                  setState(() => selectedBasvuruYapilanTur = value),
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedKatilimciTur,
+              labelText: 'Katılımcı Türü',
+              items: state.dropdownData['katilimciTurleri'],
+              onChanged: (value) =>
+                  setState(() => selectedKatilimciTur = value),
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedBasvuruDonem,
+              labelText: 'Başvuru Dönemi',
+              items: state.dropdownData['basvuruDonemleri'],
+              onChanged: (value) =>
+                  setState(() => selectedBasvuruDonem = value),
+            ),
+            SizedBox(height: 10),
+            buildDropdownFormField(
+              value: selectedBasvuruDurum,
+              labelText: 'Başvuru Durumu',
+              items: state.dropdownData['basvuruDurumlari'],
+              onChanged: (value) =>
+                  setState(() => selectedBasvuruDurum = value),
+            ),
+            SizedBox(height: 10),
+            buildDateFormField(
+              controller: _basvuruTarihiController,
+              labelText: 'Başvuru Tarihi',
+              onTap: () => datePickerFunction(context: context),
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Başvuru Tarihi gerekli'
+                  : null,
+            ),
+            SizedBox(height: 10),
+            buildDateFormField(
+              controller: _aciklanmaTarihiController,
+              labelText: 'Açıklanma Tarihi',
+              onTap: () => datePickerFunction(context: context),
+              validator: (value) => value == null || value.isEmpty
+                  ? 'Açıklanma Tarihi gerekli'
+                  : null,
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

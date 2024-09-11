@@ -50,11 +50,18 @@ class ApplicationListBloc
     emit(ApplicationListLoading());
 
     try {
-      final response = await http.get(
-        Uri.parse('http://localhost:5232/api/Basvuru/'),
+      final uri = Uri.http(
+        'localhost:5232',
+        '/api/Basvuru/',
+        event.queryParameters,
       );
 
+      print('Request URI: $uri');
+
+      final response = await http.get(uri);
+
       if (response.statusCode == 200) {
+        print('Response Body: ${response.body}');
         final List<dynamic> data = jsonDecode(response.body);
         emit(ApplicationListLoaded(data));
       } else {

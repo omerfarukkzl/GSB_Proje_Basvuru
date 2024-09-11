@@ -17,9 +17,39 @@ public class BasvuruController : ControllerBase
 
     // GET: api/Basvuru
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BasvuruDto>>> GetBasvurular()
+    public async Task<ActionResult<IEnumerable<BasvuruDto>>> GetBasvurular(
+        [FromQuery] string? projeAdi,
+        [FromQuery] int? basvuranBirimId,
+        [FromQuery] int? basvuruYapilanProjeId,
+        [FromQuery] int? basvuruYapilanTurId,
+        [FromQuery] int? katilimciTurId,
+        [FromQuery] int? basvuruDonemId,
+        [FromQuery] int? basvuruDurumId,
+        [FromQuery] DateTime? basvuruTarihi,
+        [FromQuery] DateTime? aciklanmaTarihi)
     {
-        var basvurular = await _context.Basvurular
+        var query = _context.Basvurular.AsQueryable();
+
+        if (!string.IsNullOrEmpty(projeAdi))
+            query = query.Where(b => b.ProjeAdi.Contains(projeAdi));
+        if (basvuranBirimId.HasValue)
+            query = query.Where(b => b.BasvuranBirimId == basvuranBirimId);
+        if (basvuruYapilanProjeId.HasValue)
+            query = query.Where(b => b.BasvuruYapilanProjeId == basvuruYapilanProjeId);
+        if (basvuruYapilanTurId.HasValue)
+            query = query.Where(b => b.BasvuruYapilanTurId == basvuruYapilanTurId);
+        if (katilimciTurId.HasValue)
+            query = query.Where(b => b.KatilimciTurId == katilimciTurId);
+        if (basvuruDonemId.HasValue)
+            query = query.Where(b => b.BasvuruDonemId == basvuruDonemId);
+        if (basvuruDurumId.HasValue)
+            query = query.Where(b => b.BasvuruDurumId == basvuruDurumId);
+        if (basvuruTarihi.HasValue)
+            query = query.Where(b => b.BasvuruTarihi == basvuruTarihi.Value.Date);
+        if (aciklanmaTarihi.HasValue)
+            query = query.Where(b => b.AciklanmaTarihi == aciklanmaTarihi.Value.Date);
+
+        var basvurular = await query
             .Select(basvuru => new BasvuruDto
             {
                 Id = basvuru.Id,

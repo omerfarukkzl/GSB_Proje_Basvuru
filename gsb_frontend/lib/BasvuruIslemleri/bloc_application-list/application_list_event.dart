@@ -9,4 +9,11 @@ abstract class ApplicationListEvent extends Equatable {
 
 class LoadFilterList extends ApplicationListEvent {}
 
-class LoadApplications extends ApplicationListEvent {}
+class LoadApplications extends ApplicationListEvent {
+  final Map<String, String?> queryParameters;
+
+  LoadApplications([this.queryParameters = const {}]);
+
+  @override
+  List<Object> get props => [queryParameters];
+}
