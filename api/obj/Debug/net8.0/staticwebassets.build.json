@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mB6/qOV4Rhkpgsu68SmpjTW015bMx3B/fMHqXFnLqLg=",
+  "Hash": "YGkclUI6zj+v7QSab+dFN5fdPfl0F4kOUsI0ns/JaS0=",
   "Source": "api",
   "BasePath": "_content/api",
   "Mode": "Default",
@@ -15,82 +15,5 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-045812-BadRequest.txt",
-      "SourceId": "api",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/omerfarukkizil/development/GSB/api/wwwroot/",
-      "BasePath": "_content/api",
-      "RelativePath": "log/20240902-045812-BadRequest.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/log/20240902-045812-BadRequest.txt"
-    },
-    {
-      "Identity": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-045839-BadRequest.txt",
-      "SourceId": "api",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/omerfarukkizil/development/GSB/api/wwwroot/",
-      "BasePath": "_content/api",
-      "RelativePath": "log/20240902-045839-BadRequest.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/log/20240902-045839-BadRequest.txt"
-    },
-    {
-      "Identity": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240902-050145-BadRequest.txt",
-      "SourceId": "api",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/omerfarukkizil/development/GSB/api/wwwroot/",
-      "BasePath": "_content/api",
-      "RelativePath": "log/20240902-050145-BadRequest.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/log/20240902-050145-BadRequest.txt"
-    },
-    {
-      "Identity": "/Users/omerfarukkizil/development/GSB/api/wwwroot/log/20240903-040223-BadRequest.txt",
-      "SourceId": "api",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/omerfarukkizil/development/GSB/api/wwwroot/",
-      "BasePath": "_content/api",
-      "RelativePath": "log/20240903-040223-BadRequest.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/log/20240903-040223-BadRequest.txt"
-    }
-  ]
+  "Assets": []
 }

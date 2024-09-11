@@ -7,4 +7,6 @@ abstract class ApplicationListEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LoadFilterList extends ApplicationListEvent {}
+
 class LoadApplications extends ApplicationListEvent {}

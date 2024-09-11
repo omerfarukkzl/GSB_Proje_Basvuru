@@ -31,17 +31,6 @@ class _ApplicationPageState extends State<ApplicationPage> {
     context.read<ApplicationBloc>().add(LoadDropdownData());
   }
 
-  datePickerFunction({required BuildContext context}) async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      lastDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      initialDate: DateTime.now(),
-    );
-    if (pickedDate == null) return;
-    _basvuruTarihiController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,6 +211,17 @@ class _ApplicationPageState extends State<ApplicationPage> {
         ],
       ),
     );
+  }
+
+  datePickerFunction({required BuildContext context}) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      lastDate: DateTime.now(),
+      firstDate: DateTime(2015),
+      initialDate: DateTime.now(),
+    );
+    if (pickedDate == null) return;
+    _basvuruTarihiController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
   }
 
   Widget buildTextFormField({

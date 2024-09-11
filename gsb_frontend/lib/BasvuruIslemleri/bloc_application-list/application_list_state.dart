@@ -20,6 +20,17 @@ class ApplicationListLoaded extends ApplicationListState {
   List<Object> get props => [applications];
 }
 
+class FilterListLoading extends ApplicationListState {}
+
+class FilterListLoaded extends ApplicationListState {
+  final Map<String, dynamic> dropdownData;
+
+  const FilterListLoaded(this.dropdownData);
+
+  @override
+  List<Object> get props => [dropdownData];
+}
+
 class ApplicationListError extends ApplicationListState {
   final String message;
 
